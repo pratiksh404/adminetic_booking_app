@@ -24,25 +24,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           'email': params.email,
           'password': params.password,
         },
-        options: Options(
-          headers: {
-            'Accept': 'application/vnd.api+json',
-          },
-        ),
       );
       final responseData = response.data;
-      final status = responseData.status;
+      final status = responseData['status'];
       if (status is bool
           ? status
           : (status is String
               ? status.toBool()
               : throw ServerException('Server response status is unknown.'))) {
-        final token = responseData.token;
-        final responseUserData = responseData.data;
+        final token = responseData['token'];
+        final responseUserData = responseData['data'];
 
         // final message = responseData.message;
 
-        final userModel = UserModel.fromJson(responseUserData);
+        final userModel = UserModel.fromMap(responseUserData);
         await sharedPreferences.saveData('token', token);
         return userModel;
       } else {
@@ -52,8 +47,18 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
               )
             : throw ServerException(responseData.message);
       }
+    } on DioException catch (e) {
+      // Authentication error
+      if (e.response?.statusCode == 401) {
+        throw ServerException('Authentication failed. Invalid credentials.');
+      }
+      throw ServerException(e.toString());
     } on ServerException catch (e) {
       throw ServerException(e.message);
+    } on ServerValidationError catch (e) {
+      throw ServerValidationError(errors: e.errors);
+    } catch (e) {
+      throw ServerException(e.toString());
     }
   }
 
@@ -77,35 +82,30 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserModel> currentUser() async {
+  Future<UserModel?> currentUser() async {
     try {
       const String currentUserUrl = '/user';
-      final response = await dio.post(
+      final token = sharedPreferences.getData('token');
+      if (token == null) {
+        throw ServerException('User not logged in');
+      }
+      final response = await dio.get(
         currentUserUrl,
         options: Options(
           headers: {
-            'Accept': 'application/vnd.api+json',
+            'Authorization': 'Bearer $token',
           },
         ),
       );
       final responseData = response.data;
-      final status = responseData.status;
-      if (status is bool
-          ? status
-          : (status is String
-              ? status.toBool()
-              : throw ServerException('No user logged in'))) {
-        final responseUserData = responseData.data;
+      final responseUserData = responseData['data'];
 
-        // final message = responseData.message;
-
-        final userModel = UserModel.fromJson(responseUserData);
-        return userModel;
-      } else {
-        throw ServerException(responseData.message);
-      }
+      final userModel = UserModel.fromMap(responseUserData);
+      return userModel;
     } on ServerException catch (e) {
       throw ServerException(e.message);
+    } catch (e) {
+      throw ServerException(e.toString());
     }
   }
 }

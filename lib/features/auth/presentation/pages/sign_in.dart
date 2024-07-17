@@ -6,7 +6,6 @@ import 'package:adminetic_booking/core/utils/widgets/app_snack_bar.dart';
 import 'package:adminetic_booking/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:getwidget/colors/gf_color.dart';
 import 'package:getwidget/getwidget.dart';
 
 class SignIn extends StatefulWidget {
@@ -38,31 +37,31 @@ class _SignInState extends State<SignIn> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
-            AppToast(context: context, message: "Login Successful");
+            AppToast(context: context).show("Login Successful");
           }
           if (state is AuthFailure) {
             AppToast(
-                context: context,
-                message: state.message,
-                backgroundColor: GFColors.DANGER,
-                color: GFColors.WHITE,
-                icon: Icons.close);
+                    context: context,
+                    backgroundColor: GFColors.DANGER,
+                    color: GFColors.WHITE,
+                    icon: Icons.close)
+                .show(state.message);
             if (state.errors != null) {
               // Shoe App Toast for each map of errors
               state.errors!.forEach((key, value) {
                 AppToast(
-                    context: context,
-                    message: value,
-                    backgroundColor: GFColors.DANGER,
-                    color: GFColors.WHITE,
-                    icon: Icons.close);
+                        context: context,
+                        backgroundColor: GFColors.DANGER,
+                        color: GFColors.WHITE,
+                        icon: Icons.close)
+                    .show(value);
               });
             }
           }
         },
         builder: (context, state) {
           return state is AuthLoading
-              ? GFLoader()
+              ? const GFLoader()
               : SafeArea(
                   child: Form(
                     key: _formKey,
@@ -76,17 +75,6 @@ class _SignInState extends State<SignIn> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: AppDefaults.padding,
-                                  ),
-                                  child: Center(
-                                    child: Image.network(
-                                      'https://pratikshrestha404.com.np/adminetic/static/dark_logo.png',
-                                      width: 100,
-                                    ),
-                                  ),
-                                ),
                                 Text(
                                   'Sign In',
                                   style: Theme.of(context)
@@ -114,6 +102,12 @@ class _SignInState extends State<SignIn> {
                                     hintText: 'Your email',
                                   ),
                                   controller: _emailController,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your email';
+                                    }
+                                    return null;
+                                  },
                                 ),
                                 gapH16,
 
@@ -128,6 +122,12 @@ class _SignInState extends State<SignIn> {
                                     hintText: 'Password',
                                   ),
                                   controller: _passwordController,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your password';
+                                    }
+                                    return null;
+                                  },
                                 ),
                                 gapH16,
 

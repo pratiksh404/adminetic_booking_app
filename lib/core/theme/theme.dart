@@ -12,7 +12,7 @@ class AppTheme {
         surfaceTintColor: AppColors.bgSecondayLight,
       ),
       primaryColor: AppColors.primary,
-      textTheme: TextTheme()
+      textTheme: const TextTheme()
           .apply(
               bodyColor: AppColors.titleLight,
               displayColor: AppColors.titleLight)

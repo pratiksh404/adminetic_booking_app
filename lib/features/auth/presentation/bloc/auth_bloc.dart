@@ -25,7 +25,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         _currentUser = currentUser,
         _appUserCubit = appUserCubit,
         super(AuthInitial()) {
-    on<AuthEvent>((_, emit) => emit(AuthInitial()));
+    on<AuthEvent>((_, emit) => emit(AuthLoading()));
     on<AuthSignIn>(_onAuthSign);
     on<AuthSignOut>(_onAuthSignOut);
     on<AuthCheck>(_onAuthCheck);
@@ -39,7 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     return response.fold(
       (failure) =>
           emit(AuthFailure(message: failure.message, errors: failure.errors)),
-      (user) => emit(AuthSuccess(user: user)),
+      (user) => _emitAuthSuccess,
     );
   }
 
@@ -49,7 +49,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     return response.fold(
       (failure) =>
           emit(AuthFailure(message: failure.message, errors: failure.errors)),
-      (_) => emit(AuthSignOutSuccess()),
+      (_) => _emitAuthOutSuccess(emit),
     );
   }
 
@@ -57,12 +57,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final response = await _currentUser(NoParams());
     return response.fold(
       (failure) => emit(AuthFailure(message: failure.message)),
-      (user) => emit(AuthSuccess(user: user)),
+      (user) => _emitAuthSuccess(user, emit),
     );
   }
 
   void _emitAuthSuccess(User user, Emitter<AuthState> emit) {
     emit(AuthSuccess(user: user));
     _appUserCubit.updateUser(user);
+  }
+
+  void _emitAuthOutSuccess(Emitter<AuthState> emit) {
+    emit(AuthSignOutSuccess());
+    _appUserCubit.updateUser(null);
   }
 }

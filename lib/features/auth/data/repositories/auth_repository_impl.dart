@@ -38,7 +38,10 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, User>> currentUser() async {
     try {
-      final User user = await authRemoteDataSource.currentUser();
+      final User? user = await authRemoteDataSource.currentUser();
+      if (user == null) {
+        return Left(Failure(message: "User not logged in"));
+      }
       return Right(user);
     } on ServerException catch (e) {
       return Left(Failure(message: e.message));

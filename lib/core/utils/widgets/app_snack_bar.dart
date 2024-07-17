@@ -5,21 +5,20 @@ import 'package:getwidget/position/gf_toast_position.dart';
 
 class AppToast {
   final BuildContext context;
-  final String message;
   final IconData? icon;
   final Color? color;
   final Color? backgroundColor;
   GFToastPosition? toastPosition;
   AppToast(
       {required this.context,
-      required this.message,
       this.icon = Icons.info_outline,
       this.color = GFColors.LIGHT,
       this.backgroundColor = GFColors.DARK,
       this.toastPosition = GFToastPosition.BOTTOM});
 
-  void call() {
+  void show(String message) {
     GFToast.showToast(message, context,
+        toastDuration: 1200,
         toastPosition: toastPosition,
         textStyle: TextStyle(fontSize: 16, color: color),
         backgroundColor: backgroundColor,

@@ -71,14 +71,20 @@ void _authDependencies() {
 }
 
 BaseOptions _dioConfigurations({bool forAuth = false}) {
+  // Android 10.0.2.2
+  // IOS 127.0.0.1 or localhost
   final String baseUrl =
-      dotenv.env['BASE_URL'] ?? 'https://rafting.test/api/v1';
+      dotenv.env['BASE_URL'] ?? 'http://10.0.2.2:8000/api/v1';
 
   final String authBaseUrl =
-      dotenv.env['AUTH_BASE_URL'] ?? 'https://rafting.test/api';
+      dotenv.env['AUTH_BASE_URL'] ?? 'http://10.0.2.2:8000/api';
 
   return BaseOptions(
     baseUrl: forAuth ? authBaseUrl : baseUrl,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
     connectTimeout: const Duration(seconds: 5),
     receiveTimeout: const Duration(seconds: 3),
   );
