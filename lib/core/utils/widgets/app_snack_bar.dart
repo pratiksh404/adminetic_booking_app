@@ -18,7 +18,7 @@ class AppToast {
 
   void show(String message) {
     GFToast.showToast(message, context,
-        toastDuration: 1200,
+        toastDuration: 2,
         toastPosition: toastPosition,
         textStyle: TextStyle(fontSize: 16, color: color),
         backgroundColor: backgroundColor,

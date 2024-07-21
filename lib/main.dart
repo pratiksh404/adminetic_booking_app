@@ -44,9 +44,12 @@ class _MyAppState extends State<MyApp> {
       title: 'Adminetic Booking Management',
       theme: AppTheme.light(context),
       home: BlocSelector<AppUserCubit, AppUserState, bool>(
-        selector: (state) => state is AppUserLoggedIn,
-        builder: (context, isUserLoggedIn) =>
-            isUserLoggedIn ? const BookingHome() : const SignIn(),
+        selector: (state) {
+          return state is AppUserLoggedIn;
+        },
+        builder: (context, isUserLoggedIn) {
+          return isUserLoggedIn ? const BookingHome() : const SignIn();
+        },
       ),
     );
   }

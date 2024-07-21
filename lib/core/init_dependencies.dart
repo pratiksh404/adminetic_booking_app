@@ -1,4 +1,11 @@
 import 'package:adminetic_booking/core/cubit/app_user/app_user_cubit.dart';
+import 'package:adminetic_booking/core/network/api_interface.dart';
+import 'package:adminetic_booking/core/network/api_service.dart';
+import 'package:adminetic_booking/core/network/app_api_service.dart';
+import 'package:adminetic_booking/core/network/auth_api_service.dart';
+import 'package:adminetic_booking/core/network/dio_service.dart';
+import 'package:adminetic_booking/core/network/interceptors/api_interceptor.dart';
+import 'package:adminetic_booking/core/services/internet_status.dart';
 import 'package:adminetic_booking/core/services/shared_preferences_service.dart';
 import 'package:adminetic_booking/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:adminetic_booking/features/auth/data/datasources/auth_remote_data_source_impl.dart';
@@ -11,6 +18,8 @@ import 'package:adminetic_booking/features/auth/presentation/bloc/auth_bloc.dart
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final serviceLocator = GetIt.instance;
@@ -28,6 +37,59 @@ Future<void> initDependencies() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   serviceLocator.registerSingleton<SharedPreferencesService>(
       SharedPreferencesService(sharedPreferences));
+
+// Network Initialization
+
+  // Internet Check Initialization
+  final internetConnectionChecker = InternetConnectionChecker();
+  serviceLocator
+    ..registerSingleton<InternetStatus>(
+        InternetStatus(internetConnectionChecker));
+
+  // Dio Initialization
+  final authDio = Dio(_dioConfigurations(forAuth: true));
+  authDio
+    ..interceptors.add(ApiInterceptor(
+      sharedPreferences: serviceLocator<SharedPreferencesService>(),
+      internetStatus: serviceLocator<InternetStatus>(),
+    ))
+    ..interceptors.add(PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseBody: true,
+        responseHeader: false,
+        error: true,
+        compact: true,
+        maxWidth: 90));
+  final dio = Dio(_dioConfigurations());
+  dio
+    ..interceptors.add(ApiInterceptor(
+      sharedPreferences: serviceLocator<SharedPreferencesService>(),
+      internetStatus: serviceLocator<InternetStatus>(),
+    ))
+    ..interceptors.add(PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseBody: true,
+        responseHeader: false,
+        error: true,
+        compact: true,
+        maxWidth: 90));
+
+// Initializing Auth Api Service
+  serviceLocator.registerLazySingleton(() => AppApiService(
+        client: DioService(
+          dio: dio,
+          cancelToken: CancelToken(),
+        ),
+      ));
+
+  serviceLocator.registerLazySingleton(() => AuthApiService(
+      client: DioService(
+        dio: authDio,
+        cancelToken: CancelToken(),
+      ),
+      sharedPreferences: serviceLocator<SharedPreferencesService>()));
 }
 
 void _dependencies() {
@@ -40,8 +102,7 @@ void _authDependencies() {
   serviceLocator
     ..registerFactory<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(
-        dio: Dio(_dioConfigurations(forAuth: true)),
-        sharedPreferences: serviceLocator<SharedPreferencesService>(),
+        apiService: serviceLocator<AuthApiService>(),
       ),
     )
     // Repositories
