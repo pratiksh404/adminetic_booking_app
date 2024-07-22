@@ -1,6 +1,7 @@
-import 'package:adminetic_booking/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:adminetic_booking/core/theme/app_colors.dart';
+import 'package:adminetic_booking/features/booking/presentation/widgets/booking_bottom_navbar.dart';
+import 'package:adminetic_booking/features/booking/presentation/widgets/booking_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BookingHome extends StatefulWidget {
   const BookingHome({super.key});
@@ -13,10 +14,28 @@ class _BookingHomeState extends State<BookingHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: ElevatedButton(
-              onPressed: () => context.read<AuthBloc>().add(AuthSignOut()),
-              child: Text('Log Out'))),
+      appBar: AppBar(
+        title: TextField(
+          style: const TextStyle(color: Colors.white),
+          cursorColor: Colors.white,
+          decoration: const InputDecoration(
+            hintText: 'Search...',
+            hintStyle: TextStyle(color: AppColors.textGrey),
+            border: InputBorder.none,
+          ),
+          onChanged: (value) {
+            // Perform search functionality here
+          },
+        ),
+      ),
+      body: ListView.builder(
+        itemCount:
+            1, // Adjust according to the number of dummy bookings you want
+        itemBuilder: (context, index) {
+          return BookingCard();
+        },
+      ),
+      bottomNavigationBar: BookingBottomNavbar(),
     );
   }
 }

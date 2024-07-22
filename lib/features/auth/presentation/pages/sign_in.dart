@@ -1,7 +1,6 @@
 import 'package:adminetic_booking/core/contants/ghaps.dart';
 // ignore: unused_import
 import 'package:adminetic_booking/core/theme/app_colors.dart';
-import 'package:adminetic_booking/core/theme/app_defaults.dart';
 import 'package:adminetic_booking/core/utils/widgets/app_loader.dart';
 import 'package:adminetic_booking/core/utils/widgets/app_snack_bar.dart';
 import 'package:adminetic_booking/features/auth/presentation/bloc/auth_bloc.dart';

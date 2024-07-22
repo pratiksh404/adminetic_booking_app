@@ -2,7 +2,6 @@
 import 'dart:convert';
 
 import 'package:adminetic_booking/features/booking/data/models/booking_quantity_model.dart';
-import 'package:adminetic_booking/features/booking/data/models/booking_quantity_model.dart';
 import 'package:adminetic_booking/features/booking/data/models/booking_setup_model.dart';
 import 'package:adminetic_booking/features/booking/data/models/booking_status_model.dart';
 import 'package:adminetic_booking/features/booking/domain/entities/booking.dart';
