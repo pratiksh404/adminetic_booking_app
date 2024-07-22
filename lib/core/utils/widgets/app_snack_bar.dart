@@ -1,27 +1,47 @@
+import 'package:adminetic_booking/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:getwidget/colors/gf_color.dart';
-import 'package:getwidget/components/toast/gf_toast.dart';
-import 'package:getwidget/position/gf_toast_position.dart';
 
-class AppToast {
-  final BuildContext context;
-  final IconData? icon;
-  final Color? color;
-  final Color? backgroundColor;
-  GFToastPosition? toastPosition;
-  AppToast(
-      {required this.context,
-      this.icon = Icons.info_outline,
-      this.color = GFColors.LIGHT,
-      this.backgroundColor = GFColors.DARK,
-      this.toastPosition = GFToastPosition.BOTTOM});
+void showSnackBar(
+    {required BuildContext context,
+    required String message,
+    Color? textColor = AppColors.bgLight,
+    Color? backgroundColor = AppColors.appPrimaryColor}) {
+  final snackBar = SnackBar(
+    content: Text(message),
+    backgroundColor: Colors.teal,
+    behavior: SnackBarBehavior.floating,
+    action: SnackBarAction(
+      label: 'Dismiss',
+      disabledTextColor: Colors.white,
+      textColor: Colors.yellow,
+      onPressed: () {
+        //Do whatever you want
+      },
+    ),
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
 
-  void show(String message) {
-    GFToast.showToast(message, context,
-        toastDuration: 2,
-        toastPosition: toastPosition,
-        textStyle: TextStyle(fontSize: 16, color: color),
-        backgroundColor: backgroundColor,
-        trailing: Icon(icon));
-  }
+void showSuccessMessage(BuildContext context, String message) {
+  showSnackBar(
+      message: message,
+      textColor: AppColors.bgLight,
+      backgroundColor: AppColors.success,
+      context: context);
+}
+
+void showInfoMessage(BuildContext context, String message) {
+  showSnackBar(
+      message: message,
+      textColor: AppColors.bgLight,
+      backgroundColor: AppColors.primary,
+      context: context);
+}
+
+void showErrorMessage(BuildContext context, String message) {
+  showSnackBar(
+      message: message,
+      textColor: AppColors.bgLight,
+      backgroundColor: AppColors.error,
+      context: context);
 }

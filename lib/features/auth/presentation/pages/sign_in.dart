@@ -2,11 +2,11 @@ import 'package:adminetic_booking/core/contants/ghaps.dart';
 // ignore: unused_import
 import 'package:adminetic_booking/core/theme/app_colors.dart';
 import 'package:adminetic_booking/core/theme/app_defaults.dart';
+import 'package:adminetic_booking/core/utils/widgets/app_loader.dart';
 import 'package:adminetic_booking/core/utils/widgets/app_snack_bar.dart';
 import 'package:adminetic_booking/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:getwidget/getwidget.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -37,31 +37,21 @@ class _SignInState extends State<SignIn> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
-            AppToast(context: context).show("Login Successful");
+            showSuccessMessage(context, "Authentication Successful");
           }
           if (state is AuthFailure) {
-            AppToast(
-                    context: context,
-                    backgroundColor: GFColors.DANGER,
-                    color: GFColors.WHITE,
-                    icon: Icons.close)
-                .show(state.message);
+            showErrorMessage(context, state.message);
             if (state.errors != null) {
               // Shoe App Toast for each map of errors
               state.errors!.forEach((key, value) {
-                AppToast(
-                        context: context,
-                        backgroundColor: GFColors.DANGER,
-                        color: GFColors.WHITE,
-                        icon: Icons.close)
-                    .show(value);
+                showErrorMessage(context, value.toString());
               });
             }
           }
         },
         builder: (context, state) {
           return state is AuthLoading
-              ? const GFLoader()
+              ? const AppLoader()
               : SafeArea(
                   child: Form(
                     key: _formKey,

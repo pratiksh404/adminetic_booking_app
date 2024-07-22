@@ -22,4 +22,7 @@ class AppColors {
   static const secondaryBabyBlue = Color(0xFFB1E5FC);
   static const secondaryMintGreen = Color(0xFFB5E4CA);
   static const secondaryPaleYellow = Color(0xFFFFD88D);
+
+  static const appPrimaryColor = Color(0xFF2A85FF);
+  static const appSecondaryColor = Color(0xFF8E59FF);
 }

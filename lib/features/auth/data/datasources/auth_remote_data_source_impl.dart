@@ -72,7 +72,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           'email': params.email,
           'password': params.password,
         },
-        requiresAuthToken: true);
+        requiresAuthToken: false);
 
     return UserModel.fromMap(responseModel.data!);
   }

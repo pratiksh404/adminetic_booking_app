@@ -11,6 +11,6 @@ final class BookingSuccess extends BookingState {}
 
 final class BookingFailure extends BookingState {
   final String message;
-
-  BookingFailure(this.message);
+  final String? errors;
+  BookingFailure({required this.message, this.errors});
 }
