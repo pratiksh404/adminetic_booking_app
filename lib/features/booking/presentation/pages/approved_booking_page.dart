@@ -8,18 +8,18 @@ import 'package:adminetic_booking/features/booking/presentation/widgets/no_booki
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BookingHome extends StatefulWidget {
-  const BookingHome({super.key});
+class ApprovedBookingPage extends StatefulWidget {
+  const ApprovedBookingPage({super.key});
 
   @override
-  State<BookingHome> createState() => _BookingHomeState();
+  State<ApprovedBookingPage> createState() => _ApprovedBookingPageState();
 }
 
-class _BookingHomeState extends State<BookingHome> {
+class _ApprovedBookingPageState extends State<ApprovedBookingPage> {
   @override
   void initState() {
     super.initState();
-    context.read<BookingBloc>().add(GetAllPendingBookingsEvent());
+    context.read<BookingBloc>().add(GetAllApprovedBookingsEvent());
   }
 
   @override

@@ -1,3 +1,6 @@
+import 'package:adminetic_booking/features/booking/presentation/pages/approved_booking_page.dart';
+import 'package:adminetic_booking/features/booking/presentation/pages/pending_booking_page.dart';
+import 'package:adminetic_booking/features/booking/presentation/pages/terminated_booking_page.dart';
 import 'package:flutter/material.dart';
 
 class BookingBottomNavbar extends StatelessWidget {
@@ -35,17 +38,32 @@ class BookingBottomNavbar extends StatelessWidget {
                   text: "Pending",
                   icon: Icons.calendar_month,
                   selected: false,
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const PendingBookingPage()));
+                  }),
               IconBottomBar(
                   text: "Approved",
                   icon: Icons.check_circle_sharp,
                   selected: false,
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const ApprovedBookingPage()));
+                  }),
               IconBottomBar(
                   text: "Rejected",
                   icon: Icons.cancel_sharp,
                   selected: false,
-                  onPressed: () {})
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const TerminatedBookingPage()));
+                  })
             ],
           ),
         ),

@@ -25,6 +25,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         _approvedBookings = approvedBookings,
         _terminatedBookings = terminatedBookings,
         super(BookingInitial()) {
+    on<BookingEvent>((_, emit) => emit(BookingLoading()));
     on<GetAllBookingsEvent>(_onGetAllBookingsEvent);
     on<GetAllPendingBookingsEvent>(_onGetAllPendingBookingsEvent);
     on<GetAllApprovedBookingsEvent>(_onGetAllApprovedBookingsEvent);

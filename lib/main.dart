@@ -1,7 +1,7 @@
 import 'package:adminetic_booking/core/cubit/app_user/app_user_cubit.dart';
 import 'package:adminetic_booking/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:adminetic_booking/features/booking/presentation/bloc/booking_bloc.dart';
-import 'package:adminetic_booking/features/booking/presentation/pages/booking_home.dart';
+import 'package:adminetic_booking/features/booking/presentation/pages/pending_booking_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:adminetic_booking/core/init_dependencies.dart';
@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
           return state is AppUserLoggedIn;
         },
         builder: (context, isUserLoggedIn) {
-          return isUserLoggedIn ? const BookingHome() : const SignIn();
+          return isUserLoggedIn ? const PendingBookingPage() : const SignIn();
         },
       ),
     );
