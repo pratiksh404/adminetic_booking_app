@@ -20,6 +20,7 @@ import 'package:adminetic_booking/features/booking/domain/repositories/booking_r
 import 'package:adminetic_booking/features/booking/domain/usecases/all_bookings.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/approved_bookings.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/pending_bookings.dart';
+import 'package:adminetic_booking/features/booking/domain/usecases/set_booking_status.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/terminated_bookings.dart';
 import 'package:adminetic_booking/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:dio/dio.dart';
@@ -168,6 +169,10 @@ void _bookingDependencies() {
       () => TerminatedBookings(
           bookingRepository: serviceLocator<BookingRepository>()),
     )
+    ..registerFactory(
+      () => SetBookingStatus(
+          bookingRepository: serviceLocator<BookingRepository>()),
+    )
     // Blocs
     ..registerFactory<BookingBloc>(
       () => BookingBloc(
@@ -175,6 +180,7 @@ void _bookingDependencies() {
         pendingBookings: serviceLocator<PendingBookings>(),
         approvedBookings: serviceLocator<ApprovedBookings>(),
         terminatedBookings: serviceLocator<TerminatedBookings>(),
+        setBookingStatus: serviceLocator<SetBookingStatus>(),
       ),
     );
 }
@@ -193,8 +199,9 @@ BaseOptions _dioConfigurations({bool forAuth = false}) {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'Response-Type': 'application/json',
     },
     connectTimeout: const Duration(seconds: 5),
-    receiveTimeout: const Duration(seconds: 3),
+    receiveTimeout: const Duration(seconds: 12),
   );
 }

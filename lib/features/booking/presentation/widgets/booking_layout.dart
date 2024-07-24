@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 
 class BookingLayout extends StatelessWidget {
   final Widget body;
-  const BookingLayout({super.key, required this.body});
+  final Widget? floatingActionWidget;
+  const BookingLayout(
+      {super.key, required this.body, this.floatingActionWidget});
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +14,7 @@ class BookingLayout extends StatelessWidget {
       appBar: AppBar(title: BookingSearchBar()),
       body: body,
       bottomNavigationBar: const BookingBottomNavbar(),
+      floatingActionButton: floatingActionWidget,
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:adminetic_booking/core/extensions/extensions.dart';
 import 'package:adminetic_booking/features/booking/domain/entities/booking.dart';
 import 'package:adminetic_booking/features/booking/domain/entities/booking_quantity.dart';
-import 'package:adminetic_booking/features/booking/presentation/widgets/booking_bottom_status_sheet.dart';
+import 'package:adminetic_booking/features/booking/presentation/pages/booking_page.dart';
 import 'package:flutter/material.dart';
 
 class BookingCard extends StatefulWidget {
@@ -19,16 +19,21 @@ class _BookingCardState extends State<BookingCard> {
     final List<BookingQuantity> quantities = booking.quantities;
     return GestureDetector(
       onTap: () {
-        showBookingBottomStatusSheet(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => BookingPage(
+                      booking: booking,
+                    )));
       },
       child: Card(
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
         elevation: 5,
         child: Padding(
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -36,22 +41,22 @@ class _BookingCardState extends State<BookingCard> {
                 children: [
                   Text(
                     booking.serial_no,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Chip(
                     label: Text(
                       booking.status.label,
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                     backgroundColor: HexColor.fromHex(booking.status.color),
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 booking.name,
                 style: const TextStyle(
@@ -61,7 +66,7 @@ class _BookingCardState extends State<BookingCard> {
               ),
               const SizedBox(height: 5),
               Text(booking.email),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               if (quantities.isNotEmpty)
                 ListView.builder(
                   shrinkWrap:
@@ -91,46 +96,9 @@ class _BookingCardState extends State<BookingCard> {
                     );
                   },
                 ),
-              Divider(),
-              Text(booking.activity.name,
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              Text(booking.activity.type),
-              SizedBox(height: 10),
-              AspectRatio(
-                aspectRatio: 16 / 9,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                      10), // Optional: for rounded corners
-                  child: Image.network(
-                    booking.activity.thumbnail,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Start Date: ${booking.start_date}"),
-                      Text("End Date: ${booking.end_date}"),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text("Duration: ${booking.duration} day"),
-                      Text("Fee: ${booking.fee}"),
-                      Text("Dues: ${booking.dues}"),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-              Text("Created at: ${booking.created_at}"),
-              SizedBox(height: 10),
+              const Divider(),
+              Text("${booking.activity.name} - ${booking.activity.type}",
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
             ],
           ),
         ),

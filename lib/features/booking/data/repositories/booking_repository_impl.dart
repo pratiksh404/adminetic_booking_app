@@ -5,6 +5,7 @@ import 'package:adminetic_booking/features/booking/domain/entities/booking.dart'
 import 'package:adminetic_booking/features/booking/domain/repositories/booking_repository.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/params/all_booking_params.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/params/booking_params.dart';
+import 'package:adminetic_booking/features/booking/domain/usecases/params/booking_status_params.dart';
 
 import 'package:fpdart/src/either.dart';
 
@@ -28,6 +29,19 @@ class BookingRepositoryImpl implements BookingRepository {
     try {
       final Booking booking = await bookingRemoteDataSource.show(params);
       return Right(booking);
+    } on ServerException catch (e) {
+      return Left(Failure(message: e.message));
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> setBookingStatus(
+      BookingStatusParams params) async {
+    try {
+      await bookingRemoteDataSource.setBookingStatus(params);
+      return const Right(null);
     } on ServerException catch (e) {
       return Left(Failure(message: e.message));
     } catch (e) {
