@@ -1,7 +1,5 @@
 class BookingEndpoint {
   const BookingEndpoint._();
 
-  static String bookings() {
-    return '/bookings';
-  }
+  static const String bookings = '/bookings';
 }

@@ -1,6 +1,4 @@
 import 'package:adminetic_booking/core/cubit/app_user/app_user_cubit.dart';
-import 'package:adminetic_booking/core/network/api_interface.dart';
-import 'package:adminetic_booking/core/network/api_service.dart';
 import 'package:adminetic_booking/core/network/app_api_service.dart';
 import 'package:adminetic_booking/core/network/auth_api_service.dart';
 import 'package:adminetic_booking/core/network/dio_service.dart';
@@ -15,6 +13,15 @@ import 'package:adminetic_booking/features/auth/domain/usecases/current_user.dar
 import 'package:adminetic_booking/features/auth/domain/usecases/sign_in.dart';
 import 'package:adminetic_booking/features/auth/domain/usecases/sign_out.dart';
 import 'package:adminetic_booking/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:adminetic_booking/features/booking/data/datasources/booking_remote_data_source.dart';
+import 'package:adminetic_booking/features/booking/data/datasources/booking_remote_data_source_impl.dart';
+import 'package:adminetic_booking/features/booking/data/repositories/booking_repository_impl.dart';
+import 'package:adminetic_booking/features/booking/domain/repositories/booking_repository.dart';
+import 'package:adminetic_booking/features/booking/domain/usecases/all_bookings.dart';
+import 'package:adminetic_booking/features/booking/domain/usecases/approved_bookings.dart';
+import 'package:adminetic_booking/features/booking/domain/usecases/pending_bookings.dart';
+import 'package:adminetic_booking/features/booking/domain/usecases/terminated_bookings.dart';
+import 'package:adminetic_booking/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
@@ -95,6 +102,8 @@ Future<void> initDependencies() async {
 void _dependencies() {
   // Auth Dependencies
   _authDependencies();
+  // Booking Dependencies
+  _bookingDependencies();
 }
 
 void _authDependencies() {
@@ -127,6 +136,45 @@ void _authDependencies() {
         signOut: serviceLocator<SignOut>(),
         currentUser: serviceLocator<CurrentUser>(),
         appUserCubit: serviceLocator<AppUserCubit>(),
+      ),
+    );
+}
+
+void _bookingDependencies() {
+  // Data Resource
+  serviceLocator
+    ..registerFactory<BookingRemoteDataSource>(
+        () => BookingRemoteDataSourceImpl(
+              apiService: serviceLocator<AppApiService>(),
+            ))
+
+    // Repository
+    ..registerFactory<BookingRepository>(() => BookingRepositoryImpl(
+          bookingRemoteDataSource: serviceLocator<BookingRemoteDataSource>(),
+        ))
+    // Usecase
+    ..registerFactory(
+      () => AllBookings(bookingRepository: serviceLocator<BookingRepository>()),
+    )
+    ..registerFactory(
+      () => PendingBookings(
+          bookingRepository: serviceLocator<BookingRepository>()),
+    )
+    ..registerFactory(
+      () => ApprovedBookings(
+          bookingRepository: serviceLocator<BookingRepository>()),
+    )
+    ..registerFactory(
+      () => TerminatedBookings(
+          bookingRepository: serviceLocator<BookingRepository>()),
+    )
+    // Blocs
+    ..registerFactory<BookingBloc>(
+      () => BookingBloc(
+        allBookings: serviceLocator<AllBookings>(),
+        pendingBookings: serviceLocator<PendingBookings>(),
+        approvedBookings: serviceLocator<ApprovedBookings>(),
+        terminatedBookings: serviceLocator<TerminatedBookings>(),
       ),
     );
 }

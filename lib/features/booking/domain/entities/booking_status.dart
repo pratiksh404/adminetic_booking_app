@@ -1,5 +1,5 @@
 class BookingStatus {
-  final int value;
+  final String value;
   final String label;
   final String icon;
   final String color;

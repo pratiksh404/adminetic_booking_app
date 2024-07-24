@@ -39,9 +39,7 @@ class ApiService implements ApiInterface {
         cancelToken: cancelToken,
       );
 
-      final JSON body = response.data != null ? response.data as JSON : {};
-
-      return ResponseModel.fromMap(body);
+      return response;
     } on Exception catch (ex) {
       throw ServerException.fromDioException(ex);
     }

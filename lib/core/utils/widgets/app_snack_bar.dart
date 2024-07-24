@@ -6,20 +6,23 @@ void showSnackBar(
     required String message,
     Color? textColor = AppColors.bgLight,
     Color? backgroundColor = AppColors.appPrimaryColor}) {
+  final scaffoldMessenger = ScaffoldMessenger.of(context);
   final snackBar = SnackBar(
     content: Text(message),
     backgroundColor: Colors.teal,
     behavior: SnackBarBehavior.floating,
+    duration: const Duration(seconds: 3),
     action: SnackBarAction(
       label: 'Dismiss',
       disabledTextColor: Colors.white,
       textColor: Colors.yellow,
       onPressed: () {
-        //Do whatever you want
+        // Dismiss Snackbar
+        scaffoldMessenger.hideCurrentSnackBar();
       },
     ),
   );
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  scaffoldMessenger.showSnackBar(snackBar);
 }
 
 void showSuccessMessage(BuildContext context, String message) {

@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 class ResponseModel {
   final bool status;
   final String message;
-  final Map<String, dynamic>? data;
+  final dynamic data;
   final Map<String, String>? errors;
   ResponseModel({
     required this.status,
@@ -18,12 +18,14 @@ class ResponseModel {
   ResponseModel copyWith({
     bool? status,
     String? message,
-    Map<String, dynamic>? data,
+    dynamic data,
+    Map<String, String>? errors,
   }) {
     return ResponseModel(
       status: status ?? this.status,
       message: message ?? this.message,
       data: data ?? this.data,
+      errors: errors ?? this.errors,
     );
   }
 
@@ -32,6 +34,7 @@ class ResponseModel {
       'status': status,
       'message': message,
       'data': data,
+      'errors': errors,
     };
   }
 
@@ -39,8 +42,9 @@ class ResponseModel {
     return ResponseModel(
       status: map['status'] as bool,
       message: map['message'] as String,
-      data: map['data'] != null
-          ? Map<String, dynamic>.from((map['data'] as Map<String, dynamic>))
+      data: map['data'] as dynamic,
+      errors: map['errors'] != null
+          ? Map<String, String>.from((map['errors'] as Map<String, String>))
           : null,
     );
   }
@@ -51,8 +55,9 @@ class ResponseModel {
       ResponseModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() =>
-      'ResponseModel(status: $status, message: $message, data: $data)';
+  String toString() {
+    return 'ResponseModel(status: $status, message: $message, data: $data, errors: $errors)';
+  }
 
   @override
   bool operator ==(covariant ResponseModel other) {
@@ -60,9 +65,12 @@ class ResponseModel {
 
     return other.status == status &&
         other.message == message &&
-        mapEquals(other.data, data);
+        other.data == data &&
+        mapEquals(other.errors, errors);
   }
 
   @override
-  int get hashCode => status.hashCode ^ message.hashCode ^ data.hashCode;
+  int get hashCode {
+    return status.hashCode ^ message.hashCode ^ data.hashCode ^ errors.hashCode;
+  }
 }

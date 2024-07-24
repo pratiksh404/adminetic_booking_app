@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:adminetic_booking/features/booking/data/models/activity_model.dart';
 import 'package:adminetic_booking/features/booking/data/models/booking_quantity_model.dart';
 import 'package:adminetic_booking/features/booking/data/models/booking_setup_model.dart';
 import 'package:adminetic_booking/features/booking/data/models/booking_status_model.dart';
@@ -18,13 +19,13 @@ class BookingModel extends Booking {
     required BookingStatusModel super.status,
     required String super.start_date,
     required String super.end_date,
-    required int super.duration,
+    required String super.duration,
     required String super.fee,
     required String super.dues,
+    required ActivityModel super.activity,
     required BookingSetupModel super.setup,
-    required DateTime super.created_at,
-    required DateTime super.updated_at,
-    required String super.api,
+    required String super.created_at,
+    required String super.updated_at,
   });
 
   BookingModel copyWith({
@@ -37,13 +38,13 @@ class BookingModel extends Booking {
     BookingStatusModel? status,
     String? start_date,
     String? end_date,
-    int? duration,
+    String? duration,
     String? fee,
     String? dues,
+    ActivityModel? activity,
     BookingSetupModel? setup,
-    DateTime? created_at,
-    DateTime? updated_at,
-    String? api,
+    String? created_at,
+    String? updated_at,
   }) {
     return BookingModel(
       id: id ?? this.id,
@@ -60,10 +61,10 @@ class BookingModel extends Booking {
       duration: duration ?? this.duration,
       fee: fee ?? this.fee,
       dues: dues ?? this.dues,
+      activity: ActivityModel.fromActivity(activity ?? this.activity),
       setup: BookingSetupModel.fromBookingSetup(setup ?? this.setup),
       created_at: created_at ?? this.created_at,
       updated_at: updated_at ?? this.updated_at,
-      api: api ?? this.api,
     );
   }
 
@@ -83,35 +84,39 @@ class BookingModel extends Booking {
       'duration': duration,
       'fee': fee,
       'dues': dues,
+      'activity': ActivityModel.fromActivity(activity).toMap(),
       'setup': BookingSetupModel.fromBookingSetup(setup).toMap(),
-      'created_at': created_at.millisecondsSinceEpoch,
-      'updated_at': updated_at.millisecondsSinceEpoch,
-      'api': api,
+      'created_at': created_at,
+      'updated_at': updated_at,
     };
   }
 
   factory BookingModel.fromMap(Map<String, dynamic> map) {
     return BookingModel(
-      id: map['id'] as int,
+      id: map['id'] is String
+          ? int.parse(map['id'] as String)
+          : map['id'] as int,
       code: map['code'] as String,
       serial_no: map['serial_no'] as String,
       name: map['name'] as String,
       email: map['email'] as String,
       quantities: List<BookingQuantityModel>.from(
-        (map['quantities'] as List<int>).map<BookingQuantityModel>(
+        (map['quantities'] as List<dynamic>).map<BookingQuantityModel>(
           (x) => BookingQuantityModel.fromMap(x as Map<String, dynamic>),
         ),
       ),
+      activity: ActivityModel.fromMap(map['activity'] as Map<String, dynamic>),
       status: BookingStatusModel.fromMap(map['status'] as Map<String, dynamic>),
       start_date: map['start_date'] as String,
       end_date: map['end_date'] as String,
-      duration: map['duration'] as int,
+      duration: map['duration'] is int
+          ? map['duration'].toString()
+          : map['duration'] as String,
       fee: map['fee'] as String,
       dues: map['dues'] as String,
       setup: BookingSetupModel.fromMap(map['setup'] as Map<String, dynamic>),
-      created_at: DateTime.fromMillisecondsSinceEpoch(map['created_at'] as int),
-      updated_at: DateTime.fromMillisecondsSinceEpoch(map['updated_at'] as int),
-      api: map['api'] as String,
+      created_at: map['created_at'] as String,
+      updated_at: map['updated_at'] as String,
     );
   }
 
@@ -122,7 +127,7 @@ class BookingModel extends Booking {
 
   @override
   String toString() {
-    return 'BookingModel(id: $id, code: $code, serial_no: $serial_no, name: $name, email: $email, quantities: $quantities, status: $status, start_date: $start_date, end_date: $end_date, duration: $duration, fee: $fee, dues: $dues, setup: $setup, created_at: $created_at, updated_at: $updated_at, api: $api)';
+    return 'BookingModel(id: $id, code: $code, serial_no: $serial_no, name: $name, email: $email, quantities: $quantities, status: $status, start_date: $start_date, end_date: $end_date, duration: $duration, fee: $fee, dues: $dues,activity: $activity, setup: $setup, created_at: $created_at, updated_at: $updated_at)';
   }
 
   @override
@@ -139,12 +144,12 @@ class BookingModel extends Booking {
         other.start_date == start_date &&
         other.end_date == end_date &&
         other.duration == duration &&
+        other.activity == activity &&
         other.fee == fee &&
         other.dues == dues &&
         other.setup == setup &&
         other.created_at == created_at &&
-        other.updated_at == updated_at &&
-        other.api == api;
+        other.updated_at == updated_at;
   }
 
   @override
@@ -161,9 +166,9 @@ class BookingModel extends Booking {
         duration.hashCode ^
         fee.hashCode ^
         dues.hashCode ^
+        activity.hashCode ^
         setup.hashCode ^
         created_at.hashCode ^
-        updated_at.hashCode ^
-        api.hashCode;
+        updated_at.hashCode;
   }
 }

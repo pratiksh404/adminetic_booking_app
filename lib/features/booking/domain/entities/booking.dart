@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:adminetic_booking/features/booking/domain/entities/activity.dart';
 import 'package:adminetic_booking/features/booking/domain/entities/booking_quantity.dart';
 import 'package:adminetic_booking/features/booking/domain/entities/booking_setup.dart';
 import 'package:adminetic_booking/features/booking/domain/entities/booking_status.dart';
@@ -14,13 +15,13 @@ class Booking {
   final BookingStatus status;
   final String start_date;
   final String end_date;
-  final int duration;
+  final String duration;
   final String fee;
   final String dues;
+  final Activity activity;
   final BookingSetup setup;
-  final DateTime created_at;
-  final DateTime updated_at;
-  final String api;
+  final String created_at;
+  final String updated_at;
   Booking({
     required this.id,
     required this.code,
@@ -34,9 +35,9 @@ class Booking {
     required this.duration,
     required this.fee,
     required this.dues,
+    required this.activity,
     required this.setup,
     required this.created_at,
     required this.updated_at,
-    required this.api,
   });
 }

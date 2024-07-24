@@ -21,25 +21,29 @@ class BookingBottomNavbar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconBottomBar2(
-                  text: "Home",
+              IconBottomBar(
+                  text: "Dashboard",
                   icon: Icons.home,
                   selected: true,
                   onPressed: () {}),
-              Spacer(),
               IconBottomBar(
-                  text: "Check",
-                  icon: Icons.check,
+                  text: "Notifications",
+                  icon: Icons.notifications,
+                  selected: false,
+                  onPressed: () {}),
+              IconBottomBar2(
+                  text: "Pending",
+                  icon: Icons.calendar_month,
+                  selected: false,
+                  onPressed: () {}),
+              IconBottomBar(
+                  text: "Approved",
+                  icon: Icons.check_circle_sharp,
                   selected: false,
                   onPressed: () {}),
               IconBottomBar(
                   text: "Rejected",
-                  icon: Icons.cancel,
-                  selected: false,
-                  onPressed: () {}),
-              IconBottomBar(
-                  text: "Pending",
-                  icon: Icons.warning,
+                  icon: Icons.cancel_sharp,
                   selected: false,
                   onPressed: () {})
             ],

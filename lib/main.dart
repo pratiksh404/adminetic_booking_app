@@ -1,5 +1,6 @@
 import 'package:adminetic_booking/core/cubit/app_user/app_user_cubit.dart';
 import 'package:adminetic_booking/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:adminetic_booking/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:adminetic_booking/features/booking/presentation/pages/booking_home.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,7 @@ void main() async {
     providers: [
       BlocProvider(create: (context) => serviceLocator<AppUserCubit>()),
       BlocProvider(create: (context) => serviceLocator<AuthBloc>()),
+      BlocProvider(create: (context) => serviceLocator<BookingBloc>()),
     ],
     child: const MyApp(),
   ));

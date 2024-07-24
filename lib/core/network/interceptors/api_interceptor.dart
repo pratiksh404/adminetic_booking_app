@@ -25,11 +25,11 @@ class ApiInterceptor extends Interceptor {
     if (options.extra.containsKey('requiresAuthToken')) {
       if (options.extra['requiresAuthToken'] == true) {
         // Token from shared preference
-        final String? _token = sharedPreferences.getData('token');
+        final String? token = sharedPreferences.getData('token');
 
-        if (_token != null) {
+        if (token != null) {
           options.headers.addAll(
-            <String, Object?>{'Authorization': 'Bearer $_token'},
+            <String, Object?>{'Authorization': 'Bearer $token'},
           );
         } else {
           return handler.reject(
@@ -48,12 +48,11 @@ class ApiInterceptor extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     final bool status = response.data['status'];
-    final int statusCode = response.statusCode!;
     if (status) {
-      final String? _token = response.data['token'];
+      final String? token = response.data['token'];
 
-      if (_token != null) {
-        sharedPreferences.saveData('token', _token);
+      if (token != null) {
+        sharedPreferences.saveData('token', token);
       }
     }
     return handler.next(response);

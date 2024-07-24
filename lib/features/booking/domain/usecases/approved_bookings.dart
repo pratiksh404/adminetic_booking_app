@@ -5,11 +5,11 @@ import 'package:adminetic_booking/features/booking/domain/repositories/booking_r
 import 'package:adminetic_booking/features/booking/domain/usecases/params/all_booking_params.dart';
 import 'package:fpdart/fpdart.dart';
 
-class AllBookings implements UseCase<List<Booking>, AllBookingParams> {
+class ApprovedBookings implements UseCase<List<Booking>, AllBookingParams> {
   final BookingRepository bookingRepository;
-  AllBookings({required this.bookingRepository});
+  ApprovedBookings({required this.bookingRepository});
   @override
   Future<Either<Failure, List<Booking>>> call(AllBookingParams params) async {
-    return await bookingRepository.all(params);
+    return await bookingRepository.all(params.copyWith(status: 'Approved'));
   }
 }

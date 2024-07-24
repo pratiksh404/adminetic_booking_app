@@ -5,7 +5,7 @@ import 'package:adminetic_booking/features/booking/domain/entities/booking_statu
 
 class BookingStatusModel extends BookingStatus {
   BookingStatusModel({
-    required int super.value,
+    required String super.value,
     required String super.label,
     required String super.icon,
     required String super.color,
@@ -21,7 +21,7 @@ class BookingStatusModel extends BookingStatus {
   }
 
   BookingStatusModel copyWith({
-    int? value,
+    String? value,
     String? label,
     String? icon,
     String? color,
@@ -45,7 +45,9 @@ class BookingStatusModel extends BookingStatus {
 
   factory BookingStatusModel.fromMap(Map<String, dynamic> map) {
     return BookingStatusModel(
-      value: map['value'] as int,
+      value: map['value'] is int
+          ? map['value'].toString()
+          : map['value'] as String,
       label: map['label'] as String,
       icon: map['icon'] as String,
       color: map['color'] as String,

@@ -5,7 +5,7 @@ import 'package:adminetic_booking/features/booking/domain/entities/booking_setup
 
 class BookingSetupModel extends BookingSetup {
   BookingSetupModel({
-    required int super.feeStatus,
+    required String super.feeStatus,
     required String super.calculationType,
   });
 
@@ -17,7 +17,7 @@ class BookingSetupModel extends BookingSetup {
   }
 
   BookingSetupModel copyWith({
-    int? feeStatus,
+    String? feeStatus,
     String? calculationType,
   }) {
     return BookingSetupModel(
@@ -35,9 +35,12 @@ class BookingSetupModel extends BookingSetup {
 
   factory BookingSetupModel.fromMap(Map<String, dynamic> map) {
     return BookingSetupModel(
-      feeStatus: map['feeStatus'] as int,
-      calculationType: map['calculationType'] as String,
-    );
+        feeStatus: map['fee_status'] is int
+            ? map['fee_status'].toString()
+            : map['fee_status'] as String,
+        calculationType: map['calculation_type'] is int
+            ? map['calculation_type'].toString()
+            : map['calculation_type'] as String);
   }
 
   String toJson() => json.encode(toMap());

@@ -9,6 +9,11 @@ final class BookingLoading extends BookingState {}
 
 final class BookingSuccess extends BookingState {}
 
+final class BookingListSuccess extends BookingState {
+  final List<Booking> bookings;
+  BookingListSuccess({required this.bookings});
+}
+
 final class BookingFailure extends BookingState {
   final String message;
   final String? errors;

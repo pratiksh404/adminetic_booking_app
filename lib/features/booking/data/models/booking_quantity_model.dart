@@ -5,37 +5,37 @@ import 'package:adminetic_booking/features/booking/domain/entities/booking_quant
 
 class BookingQuantityModel extends BookingQuantity {
   BookingQuantityModel({
-    required int super.quantity,
+    required String super.qty,
     required String super.name,
   });
 
   factory BookingQuantityModel.fromBookingQuantity(BookingQuantity quantity) {
     return BookingQuantityModel(
-      quantity: quantity.quantity,
+      qty: quantity.qty,
       name: quantity.name,
     );
   }
 
   BookingQuantityModel copyWith({
-    int? quantity,
+    String? qty,
     String? name,
   }) {
     return BookingQuantityModel(
-      quantity: quantity ?? this.quantity,
+      qty: qty ?? this.qty,
       name: name ?? this.name,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'quantity': quantity,
+      'qty': qty,
       'name': name,
     };
   }
 
   factory BookingQuantityModel.fromMap(Map<String, dynamic> map) {
     return BookingQuantityModel(
-      quantity: map['quantity'] as int,
+      qty: map['qty'] as String,
       name: map['name'] as String,
     );
   }
@@ -46,15 +46,15 @@ class BookingQuantityModel extends BookingQuantity {
       BookingQuantityModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'BookingQuantityModel(quantity: $quantity, name: $name)';
+  String toString() => 'BookingQuantityModel(quantity: $qty, name: $name)';
 
   @override
   bool operator ==(covariant BookingQuantityModel other) {
     if (identical(this, other)) return true;
 
-    return other.quantity == quantity && other.name == name;
+    return other.qty == qty && other.name == name;
   }
 
   @override
-  int get hashCode => quantity.hashCode ^ name.hashCode;
+  int get hashCode => qty.hashCode ^ name.hashCode;
 }

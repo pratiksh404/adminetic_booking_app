@@ -1,8 +1,8 @@
 class BookingQuantity {
-  final int quantity;
+  final String qty;
   final String name;
   BookingQuantity({
-    required this.quantity,
+    required this.qty,
     required this.name,
   });
 }
