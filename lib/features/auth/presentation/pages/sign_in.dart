@@ -126,12 +126,13 @@ class _SignInState extends State<SignIn> {
                                   child: ElevatedButton(
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
-                                        BlocProvider.of<AuthBloc>(context).add(
-                                          AuthSignIn(
-                                            email: _emailController.text,
-                                            password: _passwordController.text,
-                                          ),
-                                        );
+                                        context.read<AuthBloc>().add(
+                                              AuthSignIn(
+                                                email: _emailController.text,
+                                                password:
+                                                    _passwordController.text,
+                                              ),
+                                            );
                                       }
                                     },
                                     child: const Text('Sign in'),

@@ -1,4 +1,4 @@
-import 'package:adminetic_booking/core/cubit/app_user/app_user_cubit.dart';
+import 'package:adminetic_booking/core/presentation/cubit/app_user/app_user_cubit.dart';
 import 'package:adminetic_booking/core/entities/user.dart';
 import 'package:adminetic_booking/core/usecase.dart';
 import 'package:adminetic_booking/features/auth/domain/usecases/current_user.dart';
@@ -39,7 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     return response.fold(
       (failure) =>
           emit(AuthFailure(message: failure.message, errors: failure.errors)),
-      (user) => _emitAuthSuccess,
+      (user) => _emitAuthSuccess(user, emit),
     );
   }
 
@@ -62,6 +62,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _emitAuthSuccess(User user, Emitter<AuthState> emit) {
+    print('auth success');
     emit(AuthSuccess(user: user));
     _appUserCubit.updateUser(user);
   }

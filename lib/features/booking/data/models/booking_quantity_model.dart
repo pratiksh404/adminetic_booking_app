@@ -35,7 +35,7 @@ class BookingQuantityModel extends BookingQuantity {
 
   factory BookingQuantityModel.fromMap(Map<String, dynamic> map) {
     return BookingQuantityModel(
-      qty: map['qty'] as String,
+      qty: map['qty'] is int ? map['qty'].toString() : map['qty'] as String,
       name: map['name'] as String,
     );
   }

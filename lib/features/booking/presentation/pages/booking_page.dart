@@ -6,7 +6,7 @@ import 'package:adminetic_booking/features/booking/domain/entities/booking.dart'
 import 'package:adminetic_booking/features/booking/domain/entities/booking_quantity.dart';
 import 'package:adminetic_booking/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:adminetic_booking/features/booking/presentation/pages/pending_booking_page.dart';
-import 'package:adminetic_booking/features/booking/presentation/widgets/booking_layout.dart';
+import 'package:adminetic_booking/core/presentation/widgets/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -35,135 +35,121 @@ class _BookingPageState extends State<BookingPage> {
         }
       },
       builder: (context, state) {
-        return state is BookingLoading
-            ? const AppLoader()
-            : BookingLayout(
-                body: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        BookingTitle(
-                          title: booking.activity.type,
-                          upperTitle: booking.activity.name,
+        return AppLayout(
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  BookingTitle(
+                    title: booking.activity.type,
+                    upperTitle: booking.activity.name,
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Text(
+                        booking.serial_no,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Text(
-                              booking.serial_no,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const Spacer(),
-                            Chip(
-                              label: Text(
-                                booking.status.label,
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                              backgroundColor:
-                                  HexColor.fromHex(booking.status.color),
-                            ),
-                          ],
+                      ),
+                      const Spacer(),
+                      Chip(
+                        label: Text(
+                          booking.status.label,
+                          style: const TextStyle(color: Colors.white),
                         ),
-                        const SizedBox(height: 10),
-                        Text(
-                          booking.name,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        Text(booking.email),
-                        const SizedBox(height: 15),
-                        if (quantities.isNotEmpty)
-                          ListView.builder(
-                            shrinkWrap:
-                                true, // Makes ListView occupy only as much space as needed
-                            physics:
-                                const NeverScrollableScrollPhysics(), // Prevents ListView from scrolling
-                            itemCount: 1, // Since you are creating only one Row
-                            itemBuilder: (context, index) {
-                              return Row(
-                                children:
-                                    List.generate(quantities.length, (index) {
-                                  final BookingQuantity quantity =
-                                      quantities[index];
-                                  return Expanded(
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          quantity.qty,
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text(quantity.name),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                              );
-                            },
-                          ),
-                        const Divider(),
-                        const SizedBox(height: 10),
-                        AspectRatio(
-                          aspectRatio: 16 / 9,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                10), // Optional: for rounded corners
-                            child: Image.network(
-                              booking.activity.thumbnail,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Start Date: ${booking.start_date}"),
-                                Text("End Date: ${booking.end_date}"),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text("Duration: ${booking.duration} day"),
-                                Text("Fee: ${booking.fee}"),
-                                Text("Dues: ${booking.dues}"),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        Text("Created at: ${booking.created_at}"),
-                        const SizedBox(height: 10),
-                        ElevatedButton(
-                          onPressed: () {
-                            context
-                                .read<BookingBloc>()
-                                .add(SetBookingStatusEvent(
-                                  booking: booking,
-                                  status: 'Pending',
-                                ));
-                          },
-                          child: Text('Pending'),
-                        )
-                      ],
+                        backgroundColor: HexColor.fromHex(booking.status.color),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    booking.name,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                floatingActionWidget: SpeedDial(
+                  const SizedBox(height: 5),
+                  Text(booking.email),
+                  const SizedBox(height: 15),
+                  if (quantities.isNotEmpty)
+                    ListView.builder(
+                      shrinkWrap:
+                          true, // Makes ListView occupy only as much space as needed
+                      physics:
+                          const NeverScrollableScrollPhysics(), // Prevents ListView from scrolling
+                      itemCount: 1, // Since you are creating only one Row
+                      itemBuilder: (context, index) {
+                        return Row(
+                          children: List.generate(quantities.length, (index) {
+                            final BookingQuantity quantity = quantities[index];
+                            return Expanded(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    quantity.qty,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(quantity.name),
+                                ],
+                              ),
+                            );
+                          }),
+                        );
+                      },
+                    ),
+                  const Divider(),
+                  const SizedBox(height: 10),
+                  AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                          10), // Optional: for rounded corners
+                      child: Image.network(
+                        booking.activity.thumbnail,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Start Date: ${booking.start_date}"),
+                          Text("End Date: ${booking.end_date}"),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text("Duration: ${booking.duration} day"),
+                          Text("Fee: ${booking.fee}"),
+                          Text("Dues: ${booking.dues}"),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Text("Created at: ${booking.created_at}"),
+                  const SizedBox(height: 10),
+                ],
+              ),
+            ),
+          ),
+          floatingActionWidget: state is BookingLoading
+              ? const CircularProgressIndicator()
+              : SpeedDial(
                   animatedIcon: AnimatedIcons.menu_close,
                   animatedIconTheme: const IconThemeData(size: 22),
                   backgroundColor: AppColors.bgLight,
@@ -217,7 +203,7 @@ class _BookingPageState extends State<BookingPage> {
                         labelBackgroundColor: AppColors.bgLight),
                   ],
                 ),
-              );
+        );
       },
     );
   }

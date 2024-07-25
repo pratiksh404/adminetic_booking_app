@@ -1,7 +1,8 @@
-import 'package:adminetic_booking/core/cubit/app_user/app_user_cubit.dart';
+import 'package:adminetic_booking/core/bloc/bloc_observer.dart';
+import 'package:adminetic_booking/core/presentation/cubit/app_user/app_user_cubit.dart';
+import 'package:adminetic_booking/core/presentation/pages/home_page.dart';
 import 'package:adminetic_booking/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:adminetic_booking/features/booking/presentation/bloc/booking_bloc.dart';
-import 'package:adminetic_booking/features/booking/presentation/pages/pending_booking_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:adminetic_booking/core/init_dependencies.dart';
@@ -14,7 +15,7 @@ void main() async {
 
 // Dependencies Initialization
   await initDependencies();
-
+  Bloc.observer = GlobalBlocObserver();
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (context) => serviceLocator<AppUserCubit>()),
@@ -50,7 +51,7 @@ class _MyAppState extends State<MyApp> {
           return state is AppUserLoggedIn;
         },
         builder: (context, isUserLoggedIn) {
-          return isUserLoggedIn ? const PendingBookingPage() : const SignIn();
+          return isUserLoggedIn ? const HomePage() : const SignIn();
         },
       ),
     );

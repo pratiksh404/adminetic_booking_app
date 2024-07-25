@@ -1,10 +1,11 @@
+import 'package:adminetic_booking/core/presentation/pages/home_page.dart';
 import 'package:adminetic_booking/features/booking/presentation/pages/approved_booking_page.dart';
 import 'package:adminetic_booking/features/booking/presentation/pages/pending_booking_page.dart';
 import 'package:adminetic_booking/features/booking/presentation/pages/terminated_booking_page.dart';
 import 'package:flutter/material.dart';
 
-class BookingBottomNavbar extends StatelessWidget {
-  const BookingBottomNavbar({Key? key}) : super(key: key);
+class AppBottomNavbar extends StatelessWidget {
+  const AppBottomNavbar({Key? key}) : super(key: key);
 
   final primaryColor = const Color(0xff4338CA);
   final secondaryColor = const Color(0xff6D28D9);
@@ -28,7 +29,10 @@ class BookingBottomNavbar extends StatelessWidget {
                   text: "Dashboard",
                   icon: Icons.home,
                   selected: true,
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => const HomePage()));
+                  }),
               IconBottomBar(
                   text: "Notifications",
                   icon: Icons.notifications,
