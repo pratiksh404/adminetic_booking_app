@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "405239193729",
+    "project_id": "adminetic-booking-notification",
+    "storage_bucket": "adminetic-booking-notification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405239193729:android:adf81c3fdeb7ef1eaead80",
+        "android_client_info": {
+          "package_name": "com.booking.pratikshrestha404.com.np"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5yPO3z7FxTlBU5RYKQ7o6Q55hONl1tXg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,6 +4,7 @@ import 'package:adminetic_booking/core/network/dio_service.dart';
 import 'package:adminetic_booking/core/network/interceptors/api_interceptor.dart';
 import 'package:adminetic_booking/core/presentation/cubit/app_user/app_user_cubit.dart';
 import 'package:adminetic_booking/core/services/internet_status.dart';
+import 'package:adminetic_booking/core/services/local_notification_service.dart';
 import 'package:adminetic_booking/core/services/shared_preferences_service.dart';
 import 'package:adminetic_booking/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:adminetic_booking/features/auth/data/datasources/auth_remote_data_source_impl.dart';
@@ -23,7 +24,11 @@ import 'package:adminetic_booking/features/booking/domain/usecases/pending_booki
 import 'package:adminetic_booking/features/booking/domain/usecases/set_booking_status.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/terminated_bookings.dart';
 import 'package:adminetic_booking/features/booking/presentation/bloc/booking_bloc.dart';
+import 'package:adminetic_booking/firebase_options.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -34,6 +39,35 @@ final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
   // Env initialization
   await dotenv.load(fileName: ".env");
+
+  // Firebase Initialization
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // Request permission
+  final messaging = FirebaseMessaging.instance;
+
+  final settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  if (kDebugMode) {
+    print('Permission granted: ${settings.authorizationStatus}');
+  }
+  // Register with FCM
+  String? token = await messaging.getToken();
+
+  if (kDebugMode) {
+    print('Registration Token=$token');
+  }
+
+  serviceLocator.registerLazySingleton<FirebaseMessaging>(() => messaging);
 
 // Feature Dependencies
   _dependencies();
@@ -113,6 +147,7 @@ void _authDependencies() {
     ..registerFactory<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(
         apiService: serviceLocator<AuthApiService>(),
+        messaging: serviceLocator<FirebaseMessaging>(),
       ),
     )
     // Repositories

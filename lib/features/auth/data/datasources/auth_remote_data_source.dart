@@ -6,5 +6,7 @@ abstract interface class AuthRemoteDataSource {
 
   Future<UserModel?> currentUser();
 
+  Future<UserModel> setUserFcmToken(UserModel user);
+
   Future<void> logOut();
 }

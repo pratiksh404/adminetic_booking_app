@@ -7,12 +7,16 @@ import 'package:adminetic_booking/core/network/response_model.dart';
 import 'package:adminetic_booking/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:adminetic_booking/features/auth/data/models/user_model.dart';
 import 'package:adminetic_booking/features/auth/domain/usecases/sign_in.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final ApiInterface _apiService;
+  final FirebaseMessaging _messaging;
 
-  AuthRemoteDataSourceImpl({required ApiService apiService})
-      : _apiService = apiService;
+  AuthRemoteDataSourceImpl(
+      {required ApiService apiService, required FirebaseMessaging messaging})
+      : _apiService = apiService,
+        _messaging = messaging;
 
   @override
   Future<UserModel> signIn(SignInParams params) async {
@@ -69,7 +73,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         },
         requiresAuthToken: false);
 
-    return UserModel.fromMap(responseModel.data!);
+    final UserModel userModel = UserModel.fromMap(responseModel.data!);
+    return setUserFcmToken(userModel);
   }
 
   @override
@@ -128,8 +133,26 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     final ResponseModel responseModel =
         await _apiService.get(endPoint: AuthEndpoint.user);
-    return responseModel.data != null
+    final UserModel? userModel = responseModel.data != null
         ? UserModel.fromMap(responseModel.data!)
         : null;
+    if (userModel != null) {
+      if (userModel.fcmToken == null) {
+        return setUserFcmToken(userModel);
+      }
+    }
+    return userModel;
+  }
+
+  @override
+  Future<UserModel> setUserFcmToken(UserModel user) async {
+    // Grab fcm token
+    String? token = await _messaging.getToken();
+    final ResponseModel responseModel = await _apiService.post(
+        endPoint: '/user/${user.id}/fcm_token',
+        data: {'fcm_token': token},
+        requiresAuthToken: true);
+
+    return UserModel.fromMap(responseModel.data!);
   }
 }

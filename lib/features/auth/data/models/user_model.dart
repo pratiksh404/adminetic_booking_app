@@ -3,17 +3,23 @@ import 'dart:convert';
 import 'package:adminetic_booking/core/entities/user.dart';
 
 class UserModel extends User {
-  UserModel({required super.id, required super.name, required super.email});
+  UserModel(
+      {required super.id,
+      required super.name,
+      required super.email,
+      super.fcmToken});
 
   UserModel copyWith({
     int? id,
     String? name,
     String? email,
+    String? fcmToken,
   }) {
     return UserModel(
       id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,
+      fcmToken: fcmToken ?? this.fcmToken,
     );
   }
 
@@ -22,6 +28,7 @@ class UserModel extends User {
       'id': id,
       'name': name,
       'email': email,
+      'fcmToken': fcmToken
     };
   }
 
@@ -30,6 +37,7 @@ class UserModel extends User {
       id: map['id'] as int,
       name: map['name'] as String,
       email: map['email'] as String,
+      fcmToken: map['fcmToken'] != null ? map['fcmToken'] as String : null,
     );
   }
 
@@ -45,9 +53,13 @@ class UserModel extends User {
   bool operator ==(covariant UserModel other) {
     if (identical(this, other)) return true;
 
-    return other.id == id && other.name == name && other.email == email;
+    return other.id == id &&
+        other.name == name &&
+        other.email == email &&
+        other.fcmToken == fcmToken;
   }
 
   @override
-  int get hashCode => id.hashCode ^ name.hashCode ^ email.hashCode;
+  int get hashCode =>
+      id.hashCode ^ name.hashCode ^ email.hashCode ^ fcmToken.hashCode;
 }
