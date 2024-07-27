@@ -20,6 +20,7 @@ import 'package:adminetic_booking/features/booking/data/repositories/booking_rep
 import 'package:adminetic_booking/features/booking/domain/repositories/booking_repository.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/all_bookings.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/approved_bookings.dart';
+import 'package:adminetic_booking/features/booking/domain/usecases/get_booking_analytics.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/pending_bookings.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/set_booking_status.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/terminated_bookings.dart';
@@ -208,6 +209,10 @@ void _bookingDependencies() {
       () => SetBookingStatus(
           bookingRepository: serviceLocator<BookingRepository>()),
     )
+    ..registerFactory(
+      () => GetBookingAnalytics(
+          bookingRepository: serviceLocator<BookingRepository>()),
+    )
     // Blocs
     ..registerFactory<BookingBloc>(
       () => BookingBloc(
@@ -216,6 +221,7 @@ void _bookingDependencies() {
         approvedBookings: serviceLocator<ApprovedBookings>(),
         terminatedBookings: serviceLocator<TerminatedBookings>(),
         setBookingStatus: serviceLocator<SetBookingStatus>(),
+        getBookingAnalytics: serviceLocator<GetBookingAnalytics>(),
       ),
     );
 }

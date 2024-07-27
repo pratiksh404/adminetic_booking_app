@@ -11,7 +11,7 @@ void showSnackBar(
     content: Text(message),
     backgroundColor: Colors.teal,
     behavior: SnackBarBehavior.floating,
-    duration: const Duration(seconds: 3),
+    duration: const Duration(seconds: 3000),
     action: SnackBarAction(
       label: 'Dismiss',
       disabledTextColor: Colors.white,

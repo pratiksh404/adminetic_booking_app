@@ -14,6 +14,11 @@ final class BookingListSuccess extends BookingState {
   BookingListSuccess({required this.bookings});
 }
 
+final class BookingAnalyticsSuccess extends BookingState {
+  final Analytics analytics;
+  BookingAnalyticsSuccess({required this.analytics});
+}
+
 final class BookingFailure extends BookingState {
   final String message;
   final String? errors;

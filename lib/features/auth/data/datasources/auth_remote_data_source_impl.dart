@@ -5,7 +5,7 @@ import 'package:adminetic_booking/core/network/endpoints/auth_endpoint.dart';
 import 'package:adminetic_booking/core/network/response_model.dart';
 
 import 'package:adminetic_booking/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:adminetic_booking/features/auth/data/models/user_model.dart';
+import 'package:adminetic_booking/core/models/user_model.dart';
 import 'package:adminetic_booking/features/auth/domain/usecases/sign_in.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 

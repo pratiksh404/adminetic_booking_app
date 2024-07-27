@@ -1,6 +1,8 @@
 import 'package:adminetic_booking/core/exceptions/failure.dart';
 import 'package:adminetic_booking/core/exceptions/server_exception.dart';
+import 'package:adminetic_booking/core/usecase.dart';
 import 'package:adminetic_booking/features/booking/data/datasources/booking_remote_data_source.dart';
+import 'package:adminetic_booking/features/booking/domain/entities/analytics.dart';
 import 'package:adminetic_booking/features/booking/domain/entities/booking.dart';
 import 'package:adminetic_booking/features/booking/domain/repositories/booking_repository.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/params/all_booking_params.dart';
@@ -42,6 +44,19 @@ class BookingRepositoryImpl implements BookingRepository {
     try {
       await bookingRemoteDataSource.setBookingStatus(params);
       return const Right(null);
+    } on ServerException catch (e) {
+      return Left(Failure(message: e.message));
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Analytics>> analytics(NoParams params) async {
+    try {
+      final Analytics analytics =
+          await bookingRemoteDataSource.analytics(params);
+      return Right(analytics);
     } on ServerException catch (e) {
       return Left(Failure(message: e.message));
     } catch (e) {
