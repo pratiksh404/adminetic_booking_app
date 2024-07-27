@@ -15,6 +15,7 @@ import 'package:adminetic_booking/features/booking/presentation/bloc/booking_blo
 import 'package:adminetic_booking/features/booking/presentation/pages/approved_booking_page.dart';
 import 'package:adminetic_booking/features/booking/presentation/pages/pending_booking_page.dart';
 import 'package:adminetic_booking/features/booking/presentation/pages/terminated_booking_page.dart';
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,65 +27,91 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late EasyRefreshController _refreshController;
   @override
   void initState() {
     super.initState();
+    _refreshController = EasyRefreshController(
+      controlFinishRefresh: true,
+      controlFinishLoad: true,
+    );
     context.read<BookingBloc>().add(GetBookingAnalyticsEvent());
+  }
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return AppLayout(
-      body: BlocConsumer<BookingBloc, BookingState>(
-        listener: (context, state) {
-          if (state is BookingFailure) {
-            showErrorMessage(context, state.message);
-          }
+      body: EasyRefresh(
+        controller: _refreshController,
+        header: const MaterialHeader(),
+        footer: const MaterialFooter(),
+        onRefresh: () async {
+          context.read<BookingBloc>().add(GetBookingAnalyticsEvent());
+          _refreshController.finishRefresh();
+          _refreshController.resetFooter();
         },
-        builder: (context, state) {
-          if (state is BookingLoading) {
-            return AppLoader();
-          } else {
-            if (state is BookingAnalyticsSuccess) {
-              final Analytics analytics = state.analytics;
-              return Padding(
-                  padding: const EdgeInsets.all(25.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        BlocBuilder<AppUserCubit, AppUserState>(
-                            builder: (context, state) {
-                          if (state is AppUserLoggedIn) {
-                            return WelcomeBar(
-                              title: "Welcome,",
-                              upperTitle: state.user.name,
-                            );
-                          } else {
-                            return const SizedBox.shrink();
-                          }
-                        }),
-                        const SizedBox(height: 15),
-                        ChartHolder(
-                            height: 250,
-                            chart: MonthlyBookingCountBarChart(
-                                bookingCountPerMonthInterval:
-                                    analytics.bookingCountPerMonthInterval),
-                            name: "Booking Count Per Month"),
-                        const SizedBox(height: 15),
-                        BookingStatusCountTiles(analytics: analytics),
-                        const SizedBox(height: 15),
-                        TopBookings(
-                            topBookings: analytics.topBookings.map(
-                                (key, value) =>
-                                    MapEntry(key, int.parse(value)))),
-                      ],
-                    ),
-                  ));
+        onLoad: () async {
+          _refreshController.finishLoad();
+        },
+        child: BlocConsumer<BookingBloc, BookingState>(
+          listener: (context, state) {
+            if (state is BookingFailure) {
+              showErrorMessage(context, state.message);
             }
-            return const Center(
-                child: Text('Failed to load booking analytics'));
-          }
-        },
+          },
+          builder: (context, state) {
+            if (state is BookingLoading) {
+              return AppLoader();
+            } else {
+              if (state is BookingAnalyticsSuccess) {
+                final Analytics analytics = state.analytics;
+                return Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          BlocBuilder<AppUserCubit, AppUserState>(
+                              builder: (context, state) {
+                            if (state is AppUserLoggedIn) {
+                              return WelcomeBar(
+                                title: "Welcome,",
+                                upperTitle: state.user.name,
+                              );
+                            } else {
+                              return const SizedBox.shrink();
+                            }
+                          }),
+                          const SizedBox(height: 15),
+                          ChartHolder(
+                              height: 250,
+                              chart: MonthlyBookingCountBarChart(
+                                  bookingCountPerMonthInterval:
+                                      analytics.bookingCountPerMonthInterval),
+                              name: "Booking Count Per Month"),
+                          const SizedBox(height: 15),
+                          Container(
+                              child: BookingStatusCountTiles(
+                                  analytics: analytics)),
+                          const SizedBox(height: 15),
+                          TopBookings(
+                              topBookings: analytics.topBookings.map(
+                                  (key, value) =>
+                                      MapEntry(key, int.parse(value)))),
+                        ],
+                      ),
+                    ));
+              }
+              return const Center(
+                  child: Text('Failed to load booking analytics'));
+            }
+          },
+        ),
       ),
     );
   }

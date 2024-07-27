@@ -51,6 +51,7 @@ dependencies:
   rxdart: ^0.28.0
   flutter_local_notifications: ^17.2.1+2
   fl_chart: ^0.68.0
+  easy_refresh: ^3.4.0
 
 dev_dependencies:
   flutter_test:

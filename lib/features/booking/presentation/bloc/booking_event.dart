@@ -18,3 +18,8 @@ final class SetBookingStatusEvent extends BookingEvent {
   final String status;
   SetBookingStatusEvent({required this.booking, required this.status});
 }
+
+final class ShowBookingEvent extends BookingEvent {
+  final int id;
+  ShowBookingEvent({required this.id});
+}

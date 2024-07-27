@@ -5,9 +5,11 @@ import 'package:adminetic_booking/features/booking/domain/usecases/all_bookings.
 import 'package:adminetic_booking/features/booking/domain/usecases/approved_bookings.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/get_booking_analytics.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/params/all_booking_params.dart';
+import 'package:adminetic_booking/features/booking/domain/usecases/params/booking_params.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/params/booking_status_params.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/pending_bookings.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/set_booking_status.dart';
+import 'package:adminetic_booking/features/booking/domain/usecases/show_booking.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/terminated_bookings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,19 +24,22 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   final TerminatedBookings _terminatedBookings;
   final SetBookingStatus _setBookingStatus;
   final GetBookingAnalytics _getBookingAnalytics;
-  BookingBloc({
-    required AllBookings allBookings,
-    required PendingBookings pendingBookings,
-    required ApprovedBookings approvedBookings,
-    required TerminatedBookings terminatedBookings,
-    required SetBookingStatus setBookingStatus,
-    required GetBookingAnalytics getBookingAnalytics,
-  })  : _allBookings = allBookings,
+  final ShowBooking _showBooking;
+  BookingBloc(
+      {required AllBookings allBookings,
+      required PendingBookings pendingBookings,
+      required ApprovedBookings approvedBookings,
+      required TerminatedBookings terminatedBookings,
+      required SetBookingStatus setBookingStatus,
+      required GetBookingAnalytics getBookingAnalytics,
+      required ShowBooking showBooking})
+      : _allBookings = allBookings,
         _pendingBookings = pendingBookings,
         _approvedBookings = approvedBookings,
         _terminatedBookings = terminatedBookings,
         _setBookingStatus = setBookingStatus,
         _getBookingAnalytics = getBookingAnalytics,
+        _showBooking = showBooking,
         super(BookingInitial()) {
     on<BookingEvent>((_, emit) => emit(BookingLoading()));
     on<GetAllBookingsEvent>(_onGetAllBookingsEvent);
@@ -43,6 +48,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<GetAllTerminatedBookingsEvent>(_onGetAllTerminatedBookingsEvent);
     on<SetBookingStatusEvent>(_onSetBookingStatusEvent);
     on<GetBookingAnalyticsEvent>(_onGetBookingAnalyticsEvent);
+    on<ShowBookingEvent>(_onShowBookingEvent);
   }
 
   void _onGetAllBookingsEvent(
@@ -89,5 +95,12 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     final response = await _getBookingAnalytics(NoParams());
     response.fold((failure) => emit(BookingFailure(message: failure.message)),
         (analytics) => emit(BookingAnalyticsSuccess(analytics: analytics)));
+  }
+
+  void _onShowBookingEvent(
+      ShowBookingEvent event, Emitter<BookingState> emit) async {
+    final response = await _showBooking(BookingParam(id: event.id));
+    response.fold((failure) => emit(BookingFailure(message: failure.message)),
+        (booking) => emit(ShowBookingSuccess(booking: booking)));
   }
 }

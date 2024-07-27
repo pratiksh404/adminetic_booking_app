@@ -44,9 +44,15 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
   }
 
   @override
-  Future<BookingModel> show(BookingParam params) {
-    // TODO: implement show
-    throw UnimplementedError();
+  Future<BookingModel> show(BookingParam params) async {
+    try {
+      final ResponseModel responseModel = await _apiService.get(
+        endPoint: '/bookings/${params.id}',
+      );
+      return BookingModel.fromMap(responseModel.data);
+    } on ServerException catch (e) {
+      throw ServerException(message: e.message);
+    }
   }
 
   @override

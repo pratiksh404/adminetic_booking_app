@@ -23,6 +23,7 @@ import 'package:adminetic_booking/features/booking/domain/usecases/approved_book
 import 'package:adminetic_booking/features/booking/domain/usecases/get_booking_analytics.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/pending_bookings.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/set_booking_status.dart';
+import 'package:adminetic_booking/features/booking/domain/usecases/show_booking.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/terminated_bookings.dart';
 import 'package:adminetic_booking/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:adminetic_booking/firebase_options.dart';
@@ -213,6 +214,9 @@ void _bookingDependencies() {
       () => GetBookingAnalytics(
           bookingRepository: serviceLocator<BookingRepository>()),
     )
+    ..registerFactory(
+      () => ShowBooking(bookingRepository: serviceLocator<BookingRepository>()),
+    )
     // Blocs
     ..registerFactory<BookingBloc>(
       () => BookingBloc(
@@ -222,6 +226,7 @@ void _bookingDependencies() {
         terminatedBookings: serviceLocator<TerminatedBookings>(),
         setBookingStatus: serviceLocator<SetBookingStatus>(),
         getBookingAnalytics: serviceLocator<GetBookingAnalytics>(),
+        showBooking: serviceLocator<ShowBooking>(),
       ),
     );
 }
