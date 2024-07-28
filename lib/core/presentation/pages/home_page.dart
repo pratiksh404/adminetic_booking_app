@@ -1,9 +1,6 @@
-import 'package:adminetic_booking/core/entities/user.dart';
 import 'package:adminetic_booking/core/presentation/cubit/app_user/app_user_cubit.dart';
 import 'package:adminetic_booking/core/presentation/widgets/app_layout.dart';
-import 'package:adminetic_booking/core/presentation/widgets/booking_count_list_tile.dart';
 import 'package:adminetic_booking/core/presentation/widgets/booking_status_count_tiles.dart';
-import 'package:adminetic_booking/core/presentation/widgets/charts/booking_status_pie_chart.dart';
 import 'package:adminetic_booking/core/presentation/widgets/charts/chart_holder.dart';
 import 'package:adminetic_booking/core/presentation/widgets/charts/monthly_booking_count_bar_chart.dart';
 import 'package:adminetic_booking/core/presentation/widgets/top_bookings.dart';
@@ -12,9 +9,6 @@ import 'package:adminetic_booking/core/utils/widgets/app_loader.dart';
 import 'package:adminetic_booking/core/utils/widgets/app_snack_bar.dart';
 import 'package:adminetic_booking/features/booking/domain/entities/analytics.dart';
 import 'package:adminetic_booking/features/booking/presentation/bloc/booking_bloc.dart';
-import 'package:adminetic_booking/features/booking/presentation/pages/approved_booking_page.dart';
-import 'package:adminetic_booking/features/booking/presentation/pages/pending_booking_page.dart';
-import 'package:adminetic_booking/features/booking/presentation/pages/terminated_booking_page.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -67,7 +61,7 @@ class _HomePageState extends State<HomePage> {
           },
           builder: (context, state) {
             if (state is BookingLoading) {
-              return AppLoader();
+              return const AppLoader();
             } else {
               if (state is BookingAnalyticsSuccess) {
                 final Analytics analytics = state.analytics;
@@ -95,9 +89,7 @@ class _HomePageState extends State<HomePage> {
                                       analytics.bookingCountPerMonthInterval),
                               name: "Booking Count Per Month"),
                           const SizedBox(height: 15),
-                          Container(
-                              child: BookingStatusCountTiles(
-                                  analytics: analytics)),
+                          BookingStatusCountTiles(analytics: analytics),
                           const SizedBox(height: 15),
                           TopBookings(
                               topBookings: analytics.topBookings.map(
@@ -120,8 +112,7 @@ class _HomePageState extends State<HomePage> {
 class WelcomeBar extends StatelessWidget {
   final String title;
   final String upperTitle;
-  const WelcomeBar({required this.title, required this.upperTitle, Key? key})
-      : super(key: key);
+  const WelcomeBar({required this.title, required this.upperTitle, super.key});
   final primaryColor = const Color(0xff4338CA);
   final secondaryColor = const Color(0xff6D28D9);
   final accentColor = const Color(0xffffffff);
@@ -134,7 +125,7 @@ class WelcomeBar extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: 110,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(colors: [
           AppColors.appPrimaryColor,
           AppColors.appSecondaryColor

@@ -23,8 +23,8 @@ class AppColors {
   static const secondaryMintGreen = Color(0xFFB5E4CA);
   static const secondaryPaleYellow = Color(0xFFFFD88D);
 
-  static const appPrimaryColor = const Color(0xff4338CA);
-  static const appSecondaryColor = const Color(0xff6D28D9);
+  static const appPrimaryColor = Color(0xff4338CA);
+  static const appSecondaryColor = Color(0xff6D28D9);
 
   static const Color menuBackground = Color(0xFF090912);
   static const Color itemsBackground = Color(0xFF1B2339);

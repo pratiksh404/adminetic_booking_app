@@ -47,62 +47,62 @@ class ServerException implements Exception {
     try {
       if (exception is DioException) {
         final response = exception.response;
-        final int? _statusCode = response?.statusCode ?? 500;
-        final String? _message = exception.response?.data['message'];
+        final int statusCode = response?.statusCode ?? 500;
+        final String? message = exception.response?.data['message'];
 
         switch (exception.type) {
           case DioExceptionType.cancel:
             return ServerException(
-              statusCode: _statusCode,
-              message: _message ?? 'Request cancelled.',
+              statusCode: statusCode,
+              message: message ?? 'Request cancelled.',
               type: _ServerExceptionType.cancelException,
             );
           case DioExceptionType.connectionTimeout:
             return ServerException(
-              statusCode: _statusCode,
-              message: _message ?? 'Connection timeout.',
+              statusCode: statusCode,
+              message: message ?? 'Connection timeout.',
               type: _ServerExceptionType.connectTimeoutException,
             );
           case DioExceptionType.sendTimeout:
             return ServerException(
-              statusCode: _statusCode,
-              message: _message ?? 'Send timeout.',
+              statusCode: statusCode,
+              message: message ?? 'Send timeout.',
               type: _ServerExceptionType.sendTimeoutException,
             );
           case DioExceptionType.receiveTimeout:
             return ServerException(
-              statusCode: _statusCode,
-              message: _message ?? 'Receive timeout.',
+              statusCode: statusCode,
+              message: message ?? 'Receive timeout.',
               type: _ServerExceptionType.receiveTimeoutException,
             );
           case DioExceptionType.badCertificate:
             return ServerException(
-              statusCode: _statusCode,
-              message: _message ?? 'Bad certificate.',
+              statusCode: statusCode,
+              message: message ?? 'Bad certificate.',
               type: _ServerExceptionType.fetchDataException,
             );
           case DioExceptionType.badResponse:
             return ServerException(
-              statusCode: _statusCode,
-              message: _message ?? 'Bad response.',
+              statusCode: statusCode,
+              message: message ?? 'Bad response.',
               type: _ServerExceptionType.fetchDataException,
             );
           case DioExceptionType.connectionError:
             return ServerException(
-              statusCode: _statusCode,
-              message: _message ?? 'Connection error.',
+              statusCode: statusCode,
+              message: message ?? 'Connection error.',
               type: _ServerExceptionType.socketException,
             );
           case DioExceptionType.unknown:
             return ServerException(
-              statusCode: _statusCode,
-              message: _message ?? 'An unknown error occurred.',
+              statusCode: statusCode,
+              message: message ?? 'An unknown error occurred.',
               type: _ServerExceptionType.unrecognizedException,
             );
           default:
             return ServerException(
-              statusCode: _statusCode,
-              message: _message ?? 'An unknown error occurred.',
+              statusCode: statusCode,
+              message: message ?? 'An unknown error occurred.',
               type: _ServerExceptionType.unrecognizedException,
             );
         }

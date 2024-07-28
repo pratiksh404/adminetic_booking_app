@@ -83,7 +83,6 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
 
         return analytics;
       } catch (e) {
-        print('analytic model error : ${e.toString()}');
         throw ServerException(message: e.toString());
       }
     } on ServerException catch (e) {

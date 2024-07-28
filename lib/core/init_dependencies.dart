@@ -4,7 +4,6 @@ import 'package:adminetic_booking/core/network/dio_service.dart';
 import 'package:adminetic_booking/core/network/interceptors/api_interceptor.dart';
 import 'package:adminetic_booking/core/presentation/cubit/app_user/app_user_cubit.dart';
 import 'package:adminetic_booking/core/services/internet_status.dart';
-import 'package:adminetic_booking/core/services/local_notification_service.dart';
 import 'package:adminetic_booking/core/services/shared_preferences_service.dart';
 import 'package:adminetic_booking/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:adminetic_booking/features/auth/data/datasources/auth_remote_data_source_impl.dart';
@@ -88,7 +87,7 @@ Future<void> initDependencies() async {
   // Internet Check Initialization
   final internetConnectionChecker = InternetConnectionChecker();
   serviceLocator
-    ..registerSingleton<InternetStatus>(
+    .registerSingleton<InternetStatus>(
         InternetStatus(internetConnectionChecker));
 
   // Dio Initialization

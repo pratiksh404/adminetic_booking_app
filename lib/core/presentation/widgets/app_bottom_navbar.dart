@@ -5,7 +5,7 @@ import 'package:adminetic_booking/features/booking/presentation/pages/terminated
 import 'package:flutter/material.dart';
 
 class AppBottomNavbar extends StatelessWidget {
-  const AppBottomNavbar({Key? key}) : super(key: key);
+  const AppBottomNavbar({super.key});
 
   final primaryColor = const Color(0xff4338CA);
   final secondaryColor = const Color(0xff6D28D9);
@@ -78,12 +78,11 @@ class AppBottomNavbar extends StatelessWidget {
 
 class IconBottomBar extends StatelessWidget {
   const IconBottomBar(
-      {Key? key,
+      {super.key,
       required this.text,
       required this.icon,
       required this.selected,
-      required this.onPressed})
-      : super(key: key);
+      required this.onPressed});
   final String text;
   final IconData icon;
   final bool selected;
@@ -111,12 +110,11 @@ class IconBottomBar extends StatelessWidget {
 
 class IconBottomBar2 extends StatelessWidget {
   const IconBottomBar2(
-      {Key? key,
+      {super.key,
       required this.text,
       required this.icon,
       required this.selected,
-      required this.onPressed})
-      : super(key: key);
+      required this.onPressed});
   final String text;
   final IconData icon;
   final bool selected;

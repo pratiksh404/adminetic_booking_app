@@ -4,7 +4,6 @@ import 'package:adminetic_booking/core/helpers/typedefs.dart';
 import 'package:adminetic_booking/core/network/dio_service.dart';
 import 'package:adminetic_booking/core/network/response_model.dart';
 import 'package:dio/dio.dart';
-import 'package:dio/src/cancel_token.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
 class ApiService implements ApiInterface {

@@ -5,8 +5,8 @@ import 'package:adminetic_booking/features/booking/domain/entities/booking_quant
 
 class BookingQuantityModel extends BookingQuantity {
   BookingQuantityModel({
-    required String super.qty,
-    required String super.name,
+    required super.qty,
+    required super.name,
   });
 
   factory BookingQuantityModel.fromBookingQuantity(BookingQuantity quantity) {

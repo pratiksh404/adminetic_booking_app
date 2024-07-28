@@ -14,7 +14,6 @@ import 'package:adminetic_booking/features/auth/presentation/pages/sign_in.dart'
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'firebase_options.dart';
 // FlutterFire's Firebase Cloud Messaging plugin
 import 'package:firebase_messaging/firebase_messaging.dart';
 

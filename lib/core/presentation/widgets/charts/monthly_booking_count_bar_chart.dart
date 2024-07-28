@@ -6,6 +6,7 @@ class MonthlyBookingCountBarChart extends StatelessWidget {
   final Map<String, dynamic> bookingCountPerMonthInterval;
 
   const MonthlyBookingCountBarChart({
+    super.key,
     required this.bookingCountPerMonthInterval,
   });
 
@@ -48,7 +49,7 @@ class MonthlyBookingCountBarChart extends StatelessWidget {
       );
 
   Widget getTitles(double value, TitleMeta meta) {
-    final style = TextStyle(
+    const style = TextStyle(
       color: AppColors.contentColorBlue,
       fontWeight: FontWeight.bold,
       fontSize: 14,
@@ -85,7 +86,7 @@ class MonthlyBookingCountBarChart extends StatelessWidget {
         show: false,
       );
 
-  LinearGradient get _barsGradient => LinearGradient(
+  LinearGradient get _barsGradient => const LinearGradient(
         colors: [
           AppColors.contentColorBlue,
           AppColors.contentColorCyan,

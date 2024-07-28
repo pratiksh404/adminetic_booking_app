@@ -10,22 +10,22 @@ import 'package:flutter/foundation.dart';
 
 class BookingModel extends Booking {
   BookingModel({
-    required int super.id,
-    required String super.code,
-    required String super.serial_no,
-    required String super.name,
-    required String super.email,
+    required super.id,
+    required super.code,
+    required super.serial_no,
+    required super.name,
+    required super.email,
     required List<BookingQuantityModel> super.quantities,
     required BookingStatusModel super.status,
-    required String super.start_date,
-    required String super.end_date,
-    required String super.duration,
-    required String super.fee,
-    required String super.dues,
+    required super.start_date,
+    required super.end_date,
+    required super.duration,
+    required super.fee,
+    required super.dues,
     required ActivityModel super.activity,
     required BookingSetupModel super.setup,
-    required String super.created_at,
-    required String super.updated_at,
+    required super.created_at,
+    required super.updated_at,
   });
 
   BookingModel copyWith({

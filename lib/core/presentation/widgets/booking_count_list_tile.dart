@@ -12,8 +12,7 @@ class BookingCountListTile extends StatelessWidget {
       required this.trailing,
       required this.onTap,
       this.color = const Color(0xFF4338CA),
-      Key? key})
-      : super(key: key);
+      super.key});
 
   @override
   Widget build(BuildContext context) {

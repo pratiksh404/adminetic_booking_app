@@ -7,11 +7,11 @@ class ChartHolder extends StatelessWidget {
   final double? height;
 
   const ChartHolder({
-    Key? key,
+    super.key,
     required this.chart,
     required this.name,
     this.height,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

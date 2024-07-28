@@ -5,10 +5,10 @@ import 'package:adminetic_booking/features/booking/domain/entities/booking_statu
 
 class BookingStatusModel extends BookingStatus {
   BookingStatusModel({
-    required String super.value,
-    required String super.label,
-    required String super.icon,
-    required String super.color,
+    required super.value,
+    required super.label,
+    required super.icon,
+    required super.color,
   });
 
   factory BookingStatusModel.fromBookingStatus(BookingStatus status) {

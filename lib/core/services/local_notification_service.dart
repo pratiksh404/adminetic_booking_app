@@ -32,12 +32,12 @@ class LocalNotificationService {
             priority: Priority.high,
             ticker: 'ticker');
 
-    int notification_id = 1;
+    int notificationId = 1;
     const NotificationDetails notificationDetails =
         NotificationDetails(android: androidNotificationDetails);
 
     await flutterLocalNotificationsPlugin.show(
-        notification_id, title, value, notificationDetails,
+        notificationId, title, value, notificationDetails,
         payload: 'Not present');
   }
 
@@ -45,13 +45,13 @@ class LocalNotificationService {
     const DarwinNotificationDetails iOSPlatformChannelSpecifics =
         DarwinNotificationDetails();
 
-    int notification_id = 1;
+    int notificationId = 1;
 
     const NotificationDetails notificationDetails =
         NotificationDetails(iOS: iOSPlatformChannelSpecifics);
 
     await flutterLocalNotificationsPlugin.show(
-        notification_id, title, value, notificationDetails,
+        notificationId, title, value, notificationDetails,
         payload: 'Not present');
   }
 }

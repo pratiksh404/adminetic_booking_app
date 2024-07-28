@@ -4,6 +4,7 @@ class TopBookings extends StatelessWidget {
   final Map<String, int> topBookings;
 
   const TopBookings({
+    super.key,
     required this.topBookings,
   });
 
@@ -53,7 +54,7 @@ class TopBookings extends StatelessWidget {
                 leading: leading,
                 title: Text(
                   booking.key,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
@@ -66,7 +67,7 @@ class TopBookings extends StatelessWidget {
                   ),
                 ),
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 tileColor: index.isEven ? Colors.grey[100] : Colors.white,
               );
             },

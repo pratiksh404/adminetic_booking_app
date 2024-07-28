@@ -5,8 +5,8 @@ import 'package:adminetic_booking/features/booking/domain/entities/booking_setup
 
 class BookingSetupModel extends BookingSetup {
   BookingSetupModel({
-    required String super.feeStatus,
-    required String super.calculationType,
+    required super.feeStatus,
+    required super.calculationType,
   });
 
   factory BookingSetupModel.fromBookingSetup(BookingSetup setup) {

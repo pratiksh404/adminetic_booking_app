@@ -1,5 +1,4 @@
 import 'package:adminetic_booking/core/exceptions/failure.dart';
-import 'package:adminetic_booking/core/exceptions/server_exception.dart';
 import 'package:adminetic_booking/core/usecase.dart';
 import 'package:adminetic_booking/features/booking/domain/entities/analytics.dart';
 import 'package:adminetic_booking/features/booking/domain/repositories/booking_repository.dart';
