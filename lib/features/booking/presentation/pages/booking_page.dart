@@ -58,133 +58,133 @@ class _BookingPageState extends State<BookingPage> {
             showErrorMessage(context, "Failed to change status");
           }
           if (state is BookingSuccess) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const PendingBookingPage()));
+            context.read<BookingBloc>().add(ShowBookingEvent(id: booking.id));
           }
         },
         builder: (context, state) {
-          if (state is BookingLoading) {
-            return const AppLoader();
-          }
           if (state is ShowBookingSuccess) {
             booking = state.booking;
           }
           return AppLayout(
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    BookingTitle(
-                      title: booking.activity.type,
-                      upperTitle: booking.activity.name,
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Text(
-                          booking.serial_no,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+            body: state is BookingLoading
+                ? const AppLoader()
+                : SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          BookingTitle(
+                            title: booking.activity.type,
+                            upperTitle: booking.activity.name,
                           ),
-                        ),
-                        const Spacer(),
-                        Chip(
-                          label: Text(
-                            booking.status.label,
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          backgroundColor:
-                              HexColor.fromHex(booking.status.color),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      booking.name,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(booking.email),
-                    const SizedBox(height: 15),
-                    if (quantities.isNotEmpty)
-                      ListView.builder(
-                        shrinkWrap:
-                            true, // Makes ListView occupy only as much space as needed
-                        physics:
-                            const NeverScrollableScrollPhysics(), // Prevents ListView from scrolling
-                        itemCount: 1, // Since you are creating only one Row
-                        itemBuilder: (context, index) {
-                          return Row(
-                            children: List.generate(quantities.length, (index) {
-                              final BookingQuantity quantity =
-                                  quantities[index];
-                              return Expanded(
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      quantity.qty,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(quantity.name),
-                                  ],
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Text(
+                                booking.serial_no,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              );
-                            }),
-                          );
-                        },
-                      ),
-                    const Divider(),
-                    const SizedBox(height: 10),
-                    AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                            10), // Optional: for rounded corners
-                        child: Image.network(
-                          booking.activity.thumbnail,
-                          fit: BoxFit.cover,
-                        ),
+                              ),
+                              const Spacer(),
+                              Chip(
+                                label: Text(
+                                  booking.status.label,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                backgroundColor:
+                                    HexColor.fromHex(booking.status.color),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            booking.name,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(booking.email),
+                          const SizedBox(height: 15),
+                          if (quantities.isNotEmpty)
+                            ListView.builder(
+                              shrinkWrap:
+                                  true, // Makes ListView occupy only as much space as needed
+                              physics:
+                                  const NeverScrollableScrollPhysics(), // Prevents ListView from scrolling
+                              itemCount:
+                                  1, // Since you are creating only one Row
+                              itemBuilder: (context, index) {
+                                return Row(
+                                  children:
+                                      List.generate(quantities.length, (index) {
+                                    final BookingQuantity quantity =
+                                        quantities[index];
+                                    return Expanded(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            quantity.qty,
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(quantity.name),
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                                );
+                              },
+                            ),
+                          const Divider(),
+                          const SizedBox(height: 10),
+                          AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  10), // Optional: for rounded corners
+                              child: Image.network(
+                                booking.activity.thumbnail,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Start Date: ${booking.start_date}"),
+                                  Text("End Date: ${booking.end_date}"),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text("Duration: ${booking.duration} day"),
+                                  Text("Fee: ${booking.fee}"),
+                                  Text("Dues: ${booking.dues}"),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Text("Created at: ${booking.created_at}"),
+                          const SizedBox(height: 10),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Start Date: ${booking.start_date}"),
-                            Text("End Date: ${booking.end_date}"),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text("Duration: ${booking.duration} day"),
-                            Text("Fee: ${booking.fee}"),
-                            Text("Dues: ${booking.dues}"),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Text("Created at: ${booking.created_at}"),
-                    const SizedBox(height: 10),
-                  ],
-                ),
-              ),
-            ),
+                  ),
             floatingActionWidget: state is BookingLoading
-                ? const CircularProgressIndicator()
+                ? SizedBox()
                 : SpeedDial(
                     animatedIcon: AnimatedIcons.menu_close,
                     animatedIconTheme: const IconThemeData(size: 22),
