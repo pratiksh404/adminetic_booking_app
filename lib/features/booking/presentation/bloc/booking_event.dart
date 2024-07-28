@@ -11,6 +11,11 @@ final class GetAllApprovedBookingsEvent extends BookingEvent {}
 
 final class GetAllTerminatedBookingsEvent extends BookingEvent {}
 
+final class GetAllSearchedBookingsEvent extends BookingEvent {
+  final String search;
+  GetAllSearchedBookingsEvent({required this.search});
+}
+
 final class GetBookingAnalyticsEvent extends BookingEvent {}
 
 final class SetBookingStatusEvent extends BookingEvent {

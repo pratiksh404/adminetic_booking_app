@@ -1,7 +1,32 @@
+import 'dart:async';
+
+import 'package:adminetic_booking/features/booking/presentation/pages/searched_booking_page.dart';
 import 'package:flutter/material.dart';
 
-class BookingSearchBar extends StatelessWidget {
+class BookingSearchBar extends StatefulWidget {
   const BookingSearchBar({super.key});
+
+  @override
+  State<BookingSearchBar> createState() => _BookingSearchBarState();
+}
+
+class _BookingSearchBarState extends State<BookingSearchBar> {
+  Timer? _debounce;
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
+
+  _onSearchChanged(String search) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 2000), () {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (_) => SearchedBookingPage(search: search)));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +41,11 @@ class BookingSearchBar extends StatelessWidget {
       ]),
       child: TextField(
         textAlign: TextAlign.center,
-        onChanged: (value) {},
+        onSubmitted: (value) {
+          if (value.isNotEmpty) {
+            _onSearchChanged(value);
+          }
+        },
         style: const TextStyle(fontSize: 14),
         decoration: InputDecoration(
           // prefixIcon: Icon(Icons.email),

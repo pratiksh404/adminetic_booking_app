@@ -1,6 +1,6 @@
 import 'package:adminetic_booking/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:adminetic_booking/core/presentation/widgets/app_bottom_navbar.dart';
-import 'package:adminetic_booking/features/booking/presentation/widgets/booking_search_bar.dart';
+import 'package:adminetic_booking/core/presentation/widgets/booking_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

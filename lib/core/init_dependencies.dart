@@ -22,6 +22,7 @@ import 'package:adminetic_booking/features/booking/domain/usecases/all_bookings.
 import 'package:adminetic_booking/features/booking/domain/usecases/approved_bookings.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/get_booking_analytics.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/pending_bookings.dart';
+import 'package:adminetic_booking/features/booking/domain/usecases/searched_bookings.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/set_booking_status.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/show_booking.dart';
 import 'package:adminetic_booking/features/booking/domain/usecases/terminated_bookings.dart';
@@ -207,6 +208,10 @@ void _bookingDependencies() {
           bookingRepository: serviceLocator<BookingRepository>()),
     )
     ..registerFactory(
+      () => SearchedBookings(
+          bookingRepository: serviceLocator<BookingRepository>()),
+    )
+    ..registerFactory(
       () => SetBookingStatus(
           bookingRepository: serviceLocator<BookingRepository>()),
     )
@@ -224,6 +229,7 @@ void _bookingDependencies() {
         pendingBookings: serviceLocator<PendingBookings>(),
         approvedBookings: serviceLocator<ApprovedBookings>(),
         terminatedBookings: serviceLocator<TerminatedBookings>(),
+        searchedBookings: serviceLocator<SearchedBookings>(),
         setBookingStatus: serviceLocator<SetBookingStatus>(),
         getBookingAnalytics: serviceLocator<GetBookingAnalytics>(),
         showBooking: serviceLocator<ShowBooking>(),
