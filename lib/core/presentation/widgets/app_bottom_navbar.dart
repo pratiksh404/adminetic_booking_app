@@ -30,7 +30,7 @@ class AppBottomNavbar extends StatelessWidget {
                   icon: Icons.home,
                   selected: true,
                   onPressed: () {
-                    Navigator.push(context,
+                    Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (_) => const HomePage()));
                   }),
               IconBottomBar(
@@ -43,7 +43,7 @@ class AppBottomNavbar extends StatelessWidget {
                   icon: Icons.calendar_month,
                   selected: false,
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (_) => const PendingBookingPage()));
@@ -53,7 +53,7 @@ class AppBottomNavbar extends StatelessWidget {
                   icon: Icons.check_circle_sharp,
                   selected: false,
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (_) => const ApprovedBookingPage()));
@@ -63,7 +63,7 @@ class AppBottomNavbar extends StatelessWidget {
                   icon: Icons.cancel_sharp,
                   selected: false,
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (_) => const TerminatedBookingPage()));

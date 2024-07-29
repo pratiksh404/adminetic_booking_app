@@ -19,7 +19,7 @@ class BookingStatusCountTiles extends StatelessWidget {
                 Image.asset('assets/pending.png', width: 30.0, height: 30.0),
             trailing: Text('${analytics.pendingBookingCount}'),
             onTap: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (_) => const PendingBookingPage()));
@@ -31,7 +31,7 @@ class BookingStatusCountTiles extends StatelessWidget {
                 Image.asset('assets/approved.png', width: 30.0, height: 30.0),
             trailing: Text('${analytics.approvedBookingCount}'),
             onTap: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (_) => const ApprovedBookingPage()));
@@ -43,7 +43,7 @@ class BookingStatusCountTiles extends StatelessWidget {
                 Image.asset('assets/terminated.png', width: 30.0, height: 30.0),
             trailing: Text('${analytics.terminatedBookingCount}'),
             onTap: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (_) => const TerminatedBookingPage()));
