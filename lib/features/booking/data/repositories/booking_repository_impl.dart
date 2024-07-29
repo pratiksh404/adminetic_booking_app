@@ -39,11 +39,12 @@ class BookingRepositoryImpl implements BookingRepository {
   }
 
   @override
-  Future<Either<Failure, void>> setBookingStatus(
+  Future<Either<Failure, Booking>> setBookingStatus(
       BookingStatusParams params) async {
     try {
-      await bookingRemoteDataSource.setBookingStatus(params);
-      return const Right(null);
+      final Booking booking =
+          await bookingRemoteDataSource.setBookingStatus(params);
+      return Right(booking);
     } on ServerException catch (e) {
       return Left(Failure(message: e.message));
     } catch (e) {

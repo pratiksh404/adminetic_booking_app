@@ -100,7 +100,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     ));
     return response.fold(
         (failure) => emit(BookingFailure(message: failure.message)),
-        (booking) => emit(BookingSuccess()));
+        (booking) => emit(ShowBookingSuccess(booking: booking)));
   }
 
   void _onGetBookingAnalyticsEvent(

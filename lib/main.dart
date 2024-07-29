@@ -2,6 +2,7 @@ import 'package:adminetic_booking/core/bloc/bloc_observer.dart';
 import 'package:adminetic_booking/core/presentation/cubit/app_user/app_user_cubit.dart';
 import 'package:adminetic_booking/core/presentation/pages/home_page.dart';
 import 'package:adminetic_booking/core/services/local_notification_service.dart';
+import 'package:adminetic_booking/core/services/navigator_service.dart';
 import 'package:adminetic_booking/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:adminetic_booking/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -72,7 +73,9 @@ class _MyAppState extends State<MyApp> {
       }
 
       LocalNotificationService().showNotificationAndroid(
-          message.notification?.title ?? '', message.notification?.body ?? '');
+          message.notification?.title ?? '',
+          message.notification?.body ?? '',
+          message.data);
       _messageStreamController.sink.add(message);
     });
     // Set up background message handler
@@ -84,6 +87,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Adminetic Booking Management',
+      navigatorKey: navigatorKey,
       theme: AppTheme.light(context),
       home: BlocSelector<AppUserCubit, AppUserState, bool>(
         selector: (state) {

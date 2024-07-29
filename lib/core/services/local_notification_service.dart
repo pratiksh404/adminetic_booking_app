@@ -1,3 +1,7 @@
+import 'package:adminetic_booking/core/services/navigator_service.dart';
+import 'package:adminetic_booking/features/booking/presentation/pages/booking_page.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class LocalNotificationService {
@@ -7,7 +11,7 @@ class LocalNotificationService {
   Future<void> init() async {
     // Initialize native android notification
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('notification_icon');
 
     // Initialize native Ios Notifications
     const DarwinInitializationSettings initializationSettingsIOS =
@@ -19,17 +23,29 @@ class LocalNotificationService {
       iOS: initializationSettingsIOS,
     );
 
-    await flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-    );
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
   }
 
-  void showNotificationAndroid(String title, String value) async {
+  void onDidReceiveNotificationResponse(
+      NotificationResponse notificationResponse) async {
+    final String? bookingID = notificationResponse.payload;
+    ;
+    if (bookingID != null) {
+      debugPrint('booking_id: $bookingID');
+      navigatorKey.currentState?.push(MaterialPageRoute(
+          builder: (_) => BookingPage(bookingID: int.parse(bookingID))));
+    }
+  }
+
+  void showNotificationAndroid(
+      String title, String value, Map<String, dynamic> data) async {
     const AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails('channel_id', 'Channel Name',
             channelDescription: 'Channel Description',
             importance: Importance.max,
             priority: Priority.high,
+            icon: 'notification_icon',
             ticker: 'ticker');
 
     int notificationId = 1;
@@ -38,7 +54,7 @@ class LocalNotificationService {
 
     await flutterLocalNotificationsPlugin.show(
         notificationId, title, value, notificationDetails,
-        payload: 'Not present');
+        payload: data.containsKey('booking_id') ? data['booking_id'] : null);
   }
 
   void showNotificationIos(String title, String value) async {

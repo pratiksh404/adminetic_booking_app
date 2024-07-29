@@ -12,7 +12,7 @@ abstract interface class BookingRepository {
 
   Future<Either<Failure, Booking>> show(BookingParam params);
 
-  Future<Either<Failure, void>> setBookingStatus(BookingStatusParams params);
+  Future<Either<Failure, Booking>> setBookingStatus(BookingStatusParams params);
 
   Future<Either<Failure, Analytics>> analytics(NoParams params);
 }

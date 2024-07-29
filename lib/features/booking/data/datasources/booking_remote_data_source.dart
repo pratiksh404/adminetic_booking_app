@@ -8,6 +8,6 @@ import 'package:adminetic_booking/features/booking/domain/usecases/params/bookin
 abstract interface class BookingRemoteDataSource {
   Future<List<BookingModel>> all(AllBookingParams params);
   Future<BookingModel> show(BookingParam params);
-  Future<void> setBookingStatus(BookingStatusParams params);
+  Future<BookingModel> setBookingStatus(BookingStatusParams params);
   Future<AnalyticsModel> analytics(NoParams params);
 }

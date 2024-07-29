@@ -35,9 +35,9 @@ class _SignInState extends State<SignIn> {
       backgroundColor: Colors.white,
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is AuthSuccess) {
+          /*  if (state is AuthSuccess) {
             showSuccessMessage(context, "Authentication Successful");
-          }
+          } */
           if (state is AuthFailure) {
             showErrorMessage(context, state.message);
             if (state.errors != null) {

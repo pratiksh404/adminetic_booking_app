@@ -56,15 +56,16 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
   }
 
   @override
-  Future<void> setBookingStatus(BookingStatusParams params) async {
+  Future<BookingModel> setBookingStatus(BookingStatusParams params) async {
     try {
       final Booking booking = params.booking;
       final status = params.status;
 
-      await _apiService.get(
+      final ResponseModel responseModel = await _apiService.get(
         endPoint: '/bookings/${booking.id}/setStatus',
         queryParams: {'status': status},
       );
+      return BookingModel.fromMap(responseModel.data);
     } on ServerException catch (e) {
       throw ServerException(message: e.message);
     }
