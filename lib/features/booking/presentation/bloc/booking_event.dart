@@ -25,6 +25,6 @@ final class SetBookingStatusEvent extends BookingEvent {
 }
 
 final class ShowBookingEvent extends BookingEvent {
-  final int id;
-  ShowBookingEvent({required this.id});
+  final String code;
+  ShowBookingEvent({required this.code});
 }

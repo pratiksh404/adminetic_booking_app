@@ -29,12 +29,12 @@ class LocalNotificationService {
 
   void onDidReceiveNotificationResponse(
       NotificationResponse notificationResponse) async {
-    final String? bookingID = notificationResponse.payload;
+    final String? code = notificationResponse.payload;
     ;
-    if (bookingID != null) {
-      debugPrint('booking_id: $bookingID');
-      navigatorKey.currentState?.push(MaterialPageRoute(
-          builder: (_) => BookingPage(bookingID: int.parse(bookingID))));
+    if (code != null) {
+      debugPrint('booking_id: $code');
+      navigatorKey.currentState
+          ?.push(MaterialPageRoute(builder: (_) => BookingPage(code: code)));
     }
   }
 
@@ -54,7 +54,7 @@ class LocalNotificationService {
 
     await flutterLocalNotificationsPlugin.show(
         notificationId, title, value, notificationDetails,
-        payload: data.containsKey('booking_id') ? data['booking_id'] : null);
+        payload: data.containsKey('code') ? data['code'] : null);
   }
 
   void showNotificationIos(String title, String value) async {

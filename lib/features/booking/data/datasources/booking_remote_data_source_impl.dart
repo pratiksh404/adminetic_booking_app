@@ -47,7 +47,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
   Future<BookingModel> show(BookingParam params) async {
     try {
       final ResponseModel responseModel = await _apiService.get(
-        endPoint: '/bookings/${params.id}',
+        endPoint: '/bookings-code/${params.code}',
       );
       return BookingModel.fromMap(responseModel.data);
     } on ServerException catch (e) {

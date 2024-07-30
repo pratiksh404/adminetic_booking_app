@@ -112,7 +112,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
 
   void _onShowBookingEvent(
       ShowBookingEvent event, Emitter<BookingState> emit) async {
-    final response = await _showBooking(BookingParam(id: event.id));
+    final response = await _showBooking(BookingParam(code: event.code));
     response.fold((failure) => emit(BookingFailure(message: failure.message)),
         (booking) => emit(ShowBookingSuccess(booking: booking)));
   }

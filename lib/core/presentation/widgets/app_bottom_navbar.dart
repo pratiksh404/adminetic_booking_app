@@ -1,6 +1,7 @@
 import 'package:adminetic_booking/core/presentation/pages/home_page.dart';
 import 'package:adminetic_booking/features/booking/presentation/pages/approved_booking_page.dart';
 import 'package:adminetic_booking/features/booking/presentation/pages/pending_booking_page.dart';
+import 'package:adminetic_booking/features/booking/presentation/pages/qrcode_booking_scanner.dart';
 import 'package:adminetic_booking/features/booking/presentation/pages/terminated_booking_page.dart';
 import 'package:flutter/material.dart';
 
@@ -34,10 +35,15 @@ class AppBottomNavbar extends StatelessWidget {
                         MaterialPageRoute(builder: (_) => const HomePage()));
                   }),
               IconBottomBar(
-                  text: "Notifications",
-                  icon: Icons.notifications,
+                  text: "QR Scanner",
+                  icon: Icons.qr_code_scanner,
                   selected: false,
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const QrcodeBookingScanner()));
+                  }),
               IconBottomBar2(
                   text: "Pending",
                   icon: Icons.calendar_month,

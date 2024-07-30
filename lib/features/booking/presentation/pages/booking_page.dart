@@ -15,9 +15,9 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class BookingPage extends StatefulWidget {
   late Booking? booking;
-  final int bookingID;
+  final String code;
 
-  BookingPage({super.key, this.booking, required this.bookingID});
+  BookingPage({super.key, this.booking, required this.code});
   @override
   State<BookingPage> createState() => _BookingPageState();
 }
@@ -28,7 +28,7 @@ class _BookingPageState extends State<BookingPage> {
   void initState() {
     super.initState();
     if (widget.booking == null) {
-      context.read<BookingBloc>().add(ShowBookingEvent(id: widget.bookingID));
+      context.read<BookingBloc>().add(ShowBookingEvent(code: widget.code));
     }
     _refreshController = EasyRefreshController(
       controlFinishRefresh: true,
@@ -45,7 +45,7 @@ class _BookingPageState extends State<BookingPage> {
   @override
   Widget build(BuildContext context) {
     Booking? booking = widget.booking;
-    final int bookingID = widget.bookingID;
+    final String code = widget.code;
 
     return BlocConsumer<BookingBloc, BookingState>(
       listener: (context, state) {
@@ -53,7 +53,7 @@ class _BookingPageState extends State<BookingPage> {
           showErrorMessage(context, "Failed to change status");
         }
         if (state is BookingSuccess) {
-          context.read<BookingBloc>().add(ShowBookingEvent(id: bookingID));
+          context.read<BookingBloc>().add(ShowBookingEvent(code: code));
         }
       },
       builder: (context, state) {
@@ -79,7 +79,7 @@ class _BookingPageState extends State<BookingPage> {
                   onRefresh: () async {
                     context
                         .read<BookingBloc>()
-                        .add(ShowBookingEvent(id: booking!.id));
+                        .add(ShowBookingEvent(code: booking!.code));
                     _refreshController.finishRefresh();
                     _refreshController.resetFooter();
                   },

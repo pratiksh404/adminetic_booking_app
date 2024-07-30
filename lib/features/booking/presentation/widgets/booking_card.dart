@@ -24,7 +24,7 @@ class _BookingCardState extends State<BookingCard> {
             MaterialPageRoute(
                 builder: (_) => BookingPage(
                       booking: booking,
-                      bookingID: booking.id,
+                      code: booking.code,
                     )));
       },
       child: Card(

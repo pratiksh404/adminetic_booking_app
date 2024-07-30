@@ -1,4 +1,4 @@
 class BookingParam {
-  final int id;
-  BookingParam({required this.id});
+  final String code;
+  BookingParam({required this.code});
 }
