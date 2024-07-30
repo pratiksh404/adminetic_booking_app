@@ -16,7 +16,6 @@ class _QrcodeBookingScannerState extends State<QrcodeBookingScanner>
     with WidgetsBindingObserver {
   Barcode? _barcode;
   final MobileScannerController controller = MobileScannerController(
-    torchEnabled: true,
     detectionSpeed: DetectionSpeed.noDuplicates,
     autoStart: false,
     useNewCameraSelector: true,
